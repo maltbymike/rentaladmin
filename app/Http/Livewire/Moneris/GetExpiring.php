@@ -14,7 +14,7 @@ class GetExpiring extends Component
 
     public $response = [];
 
-    public $isTestMode = false;
+    public $isTestMode;
 
     public function getExpiring()
     {
@@ -70,6 +70,11 @@ class GetExpiring extends Component
 
         }
 
+    }
+
+    public function mount()
+    {
+        $this->isTestMode = env('MONERIS_TEST_MODE');
     }
 
     public function render()
