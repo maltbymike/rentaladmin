@@ -14,7 +14,7 @@ class GetExpiring extends Component
 
     public $response = [];
 
-    public $isTestMode = true;
+    public $isTestMode = false;
 
     public function getExpiring()
     {
