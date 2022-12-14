@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\MonerisController;
+use App\Http\Controllers\TimeclockController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +28,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/moneris/expiring', [MonerisController::class, 'showExpiring'])->name('moneris.showExpiring');
+
+    Route::get('/timeclock', [TimeclockController::class, 'show'])->name('timeclock');
 });
