@@ -36,6 +36,38 @@
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-3"> 
+                            
+                            @if(session('success'))
+                                <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                                    <span class="font-bold">Success: </span>
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if(session('warning'))
+                                <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
+                                    <span class="font-bold">Warning: </span>
+                                    {{ session('warning') }}
+                                </div>
+                            @endif
+
+                            @if(session('failure'))
+                                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                    <span class="font-bold">Failure: </span>
+                                    {{ session('failure') }}
+                                </div>
+                            @endif
+
+                            @if($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                    <span class="font-bold">Error: </span>
+                                    {{ $error }}
+                                </div>
+                            @endforeach
+                            @endif
+
+
                             {{ $slot }}
                         </div>
                     </div>

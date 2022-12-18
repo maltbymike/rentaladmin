@@ -214,4 +214,9 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+
+    'uploads' => [
+        'disk' => 'local',
+        'hash'  => 'md5',
+    ],
 ];
