@@ -64,8 +64,8 @@ class GetExpiring extends Component
         } else {
 
             return [
-                'storeId' => 'store5',
-                'apiToken' => 'yesguy',
+                'storeId' => env('MONERIS_TEST_STORE_ID'),
+                'apiToken' => env('MONERIS_TEST_API_TOKEN'),
             ];    
 
         }
