@@ -4,6 +4,8 @@
     </x-slot>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <h2 class="col-span-full p-3 pb-0 font-bold text-gray-800 text-lg">Step 1:</h2>
         
         <form action="{{ route('upload') }}" method="post" enctype="multipart/form-data" class="p-3 border rounded-lg">
         
@@ -11,7 +13,7 @@
 
             <fieldset>
 
-                <legend class="font-bold">Upload Profiles</legend>
+                <legend class="text-gray-500 font-bold">Upload Profiles</legend>
 
                 <input type="file" name="file" class="border p-2" />
 
@@ -29,7 +31,7 @@
 
             <fieldset>
 
-                <legend class="font-bold">Process Uploaded Files</legend>
+                <legend class="text-gray-500 font-bold">Process Uploaded Files</legend>
 
                 <select name="file">
             
@@ -47,6 +49,14 @@
 
         </form>
     
+        <h2 class="col-span-full p-3 pb-0 font-bold text-gray-800 text-lg">Step 2:</h2>
+
+        <div class="col-span-full p-3 border rounded-lg">
+        
+            <livewire:moneris.update-tokens-from-vault />
+        
+        </div>
+
     </div>
 
 </x-app-layout>

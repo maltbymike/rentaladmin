@@ -43,28 +43,28 @@ class ProcessVaultProfilesCsvChunkJob implements ShouldQueue
 
         foreach ($records as $record) {
 
-            if (trim($record) !== null) {
-
                 $data = str_getcsv($record);
-        
-                $token = MonerisToken::firstOrNew([
-                    'data_key' => $data[0]
-                ]);
-        
-                if (! $token->exists) {
-                    
-                    $token->created_at = $data[1];
-                    $token->cust_id = $data[2];
-                    $token->email = $data[3];
-                    $token->phone = $data[4];
-                    $token->note = $data[5];
-                    $token->masked_pan = $data[6];
-        
-                    $token->save();
-        
-                }
 
-            }
+                if ($data !== null) {
+
+                    $token = MonerisToken::firstOrNew([
+                        'data_key' => $data[0]
+                    ]);
+            
+                    if (! $token->exists) {
+                        
+                        $token->created_at = $data[1];
+                        $token->cust_id = $data[2];
+                        $token->email = $data[3];
+                        $token->phone = $data[4];
+                        $token->note = $data[5];
+                        $token->masked_pan = $data[6];
+            
+                        $token->save();
+            
+                    }
+
+                }
 
         }
 
