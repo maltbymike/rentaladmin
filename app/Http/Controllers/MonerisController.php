@@ -13,6 +13,11 @@ class MonerisController extends Controller
         return view('moneris.show_expiring');
     }
 
+    public function showVaultProfiles()
+    {
+        return view('moneris.show_vault_profiles');
+    }
+
     public function showUploadVaultProfiles()
     {
         $existingFiles = Upload::where('collection', 'moneris_vault_profiles')->get();

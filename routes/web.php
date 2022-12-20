@@ -33,6 +33,7 @@ Route::middleware([
 
     Route::get('/moneris/expiring', [MonerisController::class, 'showExpiring'])->name('moneris.showExpiring');
     Route::post('/moneris/process-vault-profiles', ProcessVaultProfilesFileController::class)->name('moneris.processVaultProfiles');
+    Route::get('/moneris/show-vault-profiles', [MonerisController::class, 'showVaultProfiles'])->name('moneris.showVaultProfiles');
     Route::get('/moneris/upload-vault-profiles', [MonerisController::class, 'showUploadVaultProfiles'])->name('moneris.showUploadVaultProfiles');
 
     Route::get('/timeclock', [TimeclockController::class, 'show'])->name('timeclock');

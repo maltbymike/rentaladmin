@@ -11,6 +11,7 @@
         <div class="col-span-full">Moneris</div>
         <x-page-icon.moneris-expiring />
         <x-page-icon.moneris-upload-vault-profiles />
+        <x-page-icon.moneris-show-vault-profiles />
 
     </div>
 

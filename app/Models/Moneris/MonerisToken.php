@@ -20,4 +20,17 @@ class MonerisToken extends Model
         'note',
         'masked_pan',
     ];
+
+    public function formattedExpDate() 
+    {
+        
+        if ($expDateParts = str_split($this->exp_date, 2)) { 
+            $formatted = $expDateParts[1] . "/" . $expDateParts[0];
+        } else {
+            $formatted = null;
+        }
+
+        return $formatted;
+
+    }
 }
