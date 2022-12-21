@@ -37,25 +37,25 @@
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-3"> 
                             
-                            @if(session('success'))
-                                <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                            @if(session('success') or session()->has('success'))
+                                <x-flash-messages.success-message role="alert">
                                     <span class="font-bold">Success: </span>
                                     {{ session('success') }}
-                                </div>
+                                </x-flash-messages.success-message>
                             @endif
 
-                            @if(session('warning'))
-                                <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
+                            @if(session('warning') or session()->has('warning'))
+                                <x-flash-messages.warning-message role="alert">
                                     <span class="font-bold">Warning: </span>
                                     {{ session('warning') }}
-                                </div>
+                                </x-flash-messages.warning-message>
                             @endif
 
-                            @if(session('failure'))
-                                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                            @if(session('failure') or session()->has('failure'))
+                                <x-flash-messages.error-message role="alert">
                                     <span class="font-bold">Failure: </span>
                                     {{ session('failure') }}
-                                </div>
+                                </x-flash-messages.error-message>
                             @endif
 
                             @if($errors->any())
