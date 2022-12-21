@@ -15,6 +15,15 @@ class ShowVaultProfiles extends Component
     public int $showExpired = 1; // 1 = Show All, 2 = Show Only Expired, 3 = Show Only Unexpired
     public bool $showAVS = false;
 
+    public function deleteAllVaultRecords() 
+    {
+        
+        // TODO - Ensure person is authorized
+
+        $delete = MonerisToken::where('data_key', '!=', '')->delete();
+
+    }
+
     public function render()
     {
 

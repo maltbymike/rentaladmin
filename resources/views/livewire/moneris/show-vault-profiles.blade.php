@@ -19,6 +19,30 @@
             <x-jet-button wire:click="$toggle('showAVS')" class="py-1 {{ $showAVS ? '' : 'opacity-25' }}">Show</x-jet-button>
             
         </div>
+
+        <div class="ml-auto">
+
+            <x-jet-dropdown align="right" width="w-60">
+                
+                <x-slot name="trigger">
+                    
+                    <x-jet-secondary-button class="py-1">Clear Records</x-jet-secondary-button>
+                    
+                </x-slot>
+
+                <x-slot name="content">
+
+                    <div class="px-3 py-16 flex items-center justify-center">
+
+                        <x-jet-danger-button wire:click="deleteAllVaultRecords">Delete All Records</x-jet-danger-button>
+
+                    </div>
+
+                </x-slot>
+            
+            </x-jet-dropdown>
+        
+        </div>
     
     </div>
 
