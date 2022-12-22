@@ -13,6 +13,11 @@ class MonerisController extends Controller
         return view('moneris.show_expiring');
     }
 
+    public function showPointOfRentalPaymentTokens()
+    {
+        return view('moneris.show_point_of_rental_payment_tokens');
+    }
+
     public function showVaultProfiles()
     {
         return view('moneris.show_vault_profiles');

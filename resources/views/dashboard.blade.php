@@ -12,6 +12,7 @@
         <x-page-icon.moneris-expiring />
         <x-page-icon.moneris-upload-vault-profiles />
         <x-page-icon.moneris-show-vault-profiles />
+        <x-page-icon.point-of-rental-payment-tokens />
 
     </div>
 
