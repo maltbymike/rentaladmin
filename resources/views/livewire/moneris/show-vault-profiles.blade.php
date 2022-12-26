@@ -1,6 +1,35 @@
 <div>
 
     <div class="w-full text-xs flex gap-3 py-3">
+        <livewire:moneris.upload-vault-profile-file />        
+
+        <div class="ml-auto">
+
+            <x-jet-dropdown align="right" width="w-60">
+                
+                <x-slot name="trigger">
+                    
+                    <x-jet-secondary-button class="py-2">Clear Records</x-jet-secondary-button>
+                    
+                </x-slot>
+
+                <x-slot name="content">
+
+                    <div class="px-3 py-16 flex items-center justify-center">
+
+                        <x-jet-danger-button wire:click="deleteAllVaultRecords">Delete All Records</x-jet-danger-button>
+
+                    </div>
+
+                </x-slot>
+
+            </x-jet-dropdown>
+
+        </div>
+
+    </div>
+
+    <div class="w-full text-xs flex gap-3 py-3">
 
         <div class="flex flex-col max-w-fit">
         
@@ -20,33 +49,13 @@
             
         </div>
 
-        <div class="ml-auto">
-
-            <x-jet-dropdown align="right" width="w-60">
-                
-                <x-slot name="trigger">
-                    
-                    <x-jet-secondary-button class="py-1">Clear Records</x-jet-secondary-button>
-                    
-                </x-slot>
-
-                <x-slot name="content">
-
-                    <div class="px-3 py-16 flex items-center justify-center">
-
-                        <x-jet-danger-button wire:click="deleteAllVaultRecords">Delete All Records</x-jet-danger-button>
-
-                    </div>
-
-                </x-slot>
-            
-            </x-jet-dropdown>
-        
-        </div>
     
     </div>
 
     <div class="overflow-auto whitespace-nowrap">
+
+        {{ $profiles->links() }}
+
         <table class="w-full">
             
             <thead>
@@ -104,8 +113,9 @@
             </tbody>
         
         </table>
-    </div>
 
-    {{ $profiles->links() }}
+        {{ $profiles->links() }}
+    
+    </div>
 
 </div>

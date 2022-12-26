@@ -1,9 +1,27 @@
-<div>
+<div class="flex gap-3 justify-between w-3/4">
 
-    <input type="file" wire:model="file" class="border p-2" />
+    @empty($vault_file)
 
-    <x-jet-button wire:click.prevent="uploadMonerisVaultProfileFile" :disabled="$isDisabled" class="ml-3">Upload</x-jet-button>
+        <input type="file" wire:model="file" class="border p-2" />
 
-    <x-flash-messages.message-block for="file" />
+        <x-jet-button wire:click.prevent="uploadMonerisVaultProfileFile" :disabled="$isDisabled" class="ml-3">Upload</x-jet-button>
 
+        <x-flash-messages.message-block for="file" />
+
+    @else
+
+        <!-- TODO - Show Progress Bar -->
+
+        <span class="p-2">{{ $vault_file->file_name }}</span>
+
+        <x-jet-button wire:click.prevent="queueVaultProfilesForProcessing({{ $vault_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorPaymentsForProcessing" class="ml-3">Process File</x-jet-button>
+
+        <div class="mt-3">
+            <x-flash-messages.message-block />
+        </div>
+
+    @endif
+
+    <livewire:moneris.update-tokens-from-vault />
+    
 </div>
