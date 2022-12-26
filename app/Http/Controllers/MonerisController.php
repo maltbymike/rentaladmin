@@ -13,6 +13,16 @@ class MonerisController extends Controller
         return view('moneris.show_expiring');
     }
 
+    public function showPointOfRentalPaymentTokens()
+    {
+        return view('moneris.show_point_of_rental_payment_tokens');
+    }
+
+    public function showVaultProfiles()
+    {
+        return view('moneris.show_vault_profiles');
+    }
+
     public function showUploadVaultProfiles()
     {
         $existingFiles = Upload::where('collection', 'moneris_vault_profiles')->get();
