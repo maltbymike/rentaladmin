@@ -36,7 +36,7 @@ class ShowVaultProfiles extends Component
                 ->when($this->showExpired === 3, function ($query, $showExpired) {
                     $query->orWhere('exp_date', '>=', now()->format('ym'));
                 })
-                ->paginate(50)
+                ->paginate(20)
             
         ]);
     }

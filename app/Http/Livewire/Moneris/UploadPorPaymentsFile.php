@@ -57,7 +57,7 @@ class UploadPorPaymentsFile extends UploadFile
             ProcessPorPaymentsFileChunkJob::dispatch($fileName);
         }
 
-        // Flase success message
+        // Flash success message
         session()->flash('success', 'The file has been queue for processing'); 
 
     }

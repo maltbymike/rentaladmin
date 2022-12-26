@@ -45,7 +45,7 @@ class ProcessVaultProfilesCsvChunkJob implements ShouldQueue
 
                 $data = str_getcsv($record);
 
-                if ($data !== null) {
+                if (isset($data[1])) {
 
                     $token = MonerisToken::firstOrNew([
                         'data_key' => $data[0]
