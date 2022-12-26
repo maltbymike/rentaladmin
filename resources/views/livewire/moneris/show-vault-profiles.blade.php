@@ -42,10 +42,21 @@
 
         </div>
 
-        <div class="flex flex-col min-w-fit">
+        <div class="flex flex-col max-w-fit">
+        
+            <label for="show-tokens-in-por">Match POR Tokens</label>
+            <select wire:model="matchPorTokens" id="show-tokens-in-por" class="py-0 pl-1 rounded-lg">
+                <option value="1">Show All</option>
+                <option value="2">Only Tokens in POR</option>
+                <option value="3">Only Tokens not in POR</option>
+            </select>
 
-            <label for="show-avs">AVS</label>
-            <x-jet-button wire:click="$toggle('showAVS')" class="py-1 {{ $showAVS ? '' : 'opacity-25' }}">Show</x-jet-button>
+        </div>
+
+        <div class="flex flex-col min-w-fit items-center">
+
+            <label for="show-avs">Show AVS</label>
+            <input type="checkbox" wire:model="showAVS" class="mt-1 rounded-full"/>
             
         </div>
 
