@@ -2,7 +2,13 @@
 
     <div class="p-3 mb-3 bg-gray-50 w-full flex gap-3">
         
-        <livewire:moneris.upload-por-payments-file />
+        <div class="flex flex-col">
+
+            <livewire:moneris.upload-por-payments-file />
+
+            <livewire:moneris.upload-por-customer-cards-file />
+
+        </div>
 
         <div class="ml-auto">
             <x-tools.delete-all-records-dropdown wire:click="deleteAllPorTokenRecords" />
