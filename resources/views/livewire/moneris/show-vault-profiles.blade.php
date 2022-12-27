@@ -38,6 +38,7 @@
                 <option value="1">Show All</option>
                 <option value="2">Only Expired</option>
                 <option value="3">Only Unexpired</option>
+                <option value="4">Only No Expiry</option>
             </select>
 
         </div>
@@ -63,7 +64,13 @@
     
     </div>
 
-    <div class="overflow-auto whitespace-nowrap">
+    <div class="flex flex-col items-center justify-center w-full">
+        <div class="p-36" wire:loading>
+            <x-tools.loading-spinner />
+        </div>
+    </div>
+
+    <div wire:loading.remove class="overflow-auto whitespace-nowrap">
 
         {{ $profiles->links() }}
 
