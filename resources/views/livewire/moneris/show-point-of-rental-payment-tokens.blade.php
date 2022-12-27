@@ -1,14 +1,20 @@
 <div>
 
-    <div class="p-3 mb-3 bg-gray-50">
+    <div class="p-3 mb-3 bg-gray-50 w-full flex gap-3">
+        
         <livewire:moneris.upload-por-payments-file />
+
+        <div class="ml-auto">
+            <x-tools.delete-all-records-dropdown wire:click="deleteAllPorTokenRecords" />
+        </div>  
+
     </div>
 
-    <div class="overflow-auto whitespace-nowrap">
+    <div class="overflow-auto whitespace-nowrap p-3">
 
         {{ $tokens->links() }}
     
-        <table class="w-full">
+        <table class="w-full my-3">
             
             <thead>
                 

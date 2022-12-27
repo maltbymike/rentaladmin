@@ -1,26 +1,28 @@
 <div class="flex gap-3 justify-between w-3/4">
 
-    @empty($vault_file)
+    <div>
 
-        <input type="file" wire:model="file" class="border p-2" />
+        @empty($vault_file)
 
-        <x-jet-button wire:click.prevent="uploadMonerisVaultProfileFile" :disabled="$isDisabled" class="ml-3">Upload</x-jet-button>
+            <input type="file" wire:model="file" class="border p-2" />
 
-        <x-flash-messages.message-block for="file" />
+            <x-jet-button wire:click.prevent="uploadMonerisVaultProfileFile" :disabled="$isDisabled" class="ml-3">Upload</x-jet-button>
 
-    @else
+            <x-flash-messages.message-block for="file" />
 
-        <!-- TODO - Show Progress Bar -->
+        @else
 
-        <span class="p-2">{{ $vault_file->file_name }}</span>
+            <!-- TODO - Show Progress Bar -->
 
-        <x-jet-button wire:click.prevent="queueVaultProfilesForProcessing({{ $vault_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorPaymentsForProcessing" class="ml-3">Process File</x-jet-button>
+            <span class="p-2">{{ $vault_file->file_name }}</span>
 
-        <div class="mt-3">
+            <x-jet-button wire:click.prevent="queueVaultProfilesForProcessing({{ $vault_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorPaymentsForProcessing" class="ml-3">Process File</x-jet-button>
+
             <x-flash-messages.message-block />
-        </div>
 
-    @endif
+        @endif
+
+    </div>
 
     <livewire:moneris.update-tokens-from-vault />
     

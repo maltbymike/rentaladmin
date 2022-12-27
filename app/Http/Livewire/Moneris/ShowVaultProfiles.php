@@ -27,7 +27,6 @@ class ShowVaultProfiles extends Component
     {
         
         // TODO - Ensure person is authorized
-
         $delete = MonerisToken::where('data_key', '!=', '')->delete();
 
     }

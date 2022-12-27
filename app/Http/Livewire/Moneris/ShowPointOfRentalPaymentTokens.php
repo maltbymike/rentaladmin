@@ -8,6 +8,12 @@ use Livewire\Component;
 
 class ShowPointOfRentalPaymentTokens extends Component
 {
+    public function deleteAllPorTokenRecords()
+    {
+        // TODO - Ensure person is authorized
+        $delete = MonerisPorPaymentToken::where('payment_id', '!=', '')->delete();
+    }
+
     public function render()
     {
         // TODO Add filter for customers that are flagged to not save tokens

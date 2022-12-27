@@ -10,13 +10,11 @@
 
     @else
 
-        <span class="p-2">{{ $payment_file->file_name }}</span>
+        <span class="p-2"><strong>PaymentFile Table:</strong> {{ $payment_file->file_name }}</span>
 
         <x-jet-button wire:click.prevent="queuePorPaymentsForProcessing({{ $payment_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorPaymentsForProcessing" class="ml-3">Process File</x-jet-button>
 
-        <div class="mt-3">
-            <x-flash-messages.message-block />
-        </div>
+        <x-flash-messages.message-block />
     
     @endempty
 
