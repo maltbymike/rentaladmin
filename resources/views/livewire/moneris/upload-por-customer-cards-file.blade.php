@@ -24,6 +24,8 @@
 
             <x-jet-button wire:click.prevent="queuePorCustomerCardsForProcessing({{ $customer_cards_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorCustomerCardsForProcessing" class="ml-3">Process File</x-jet-button>
 
+            <x-jet-danger-button wire:click.prevent="deleteFile({{ $customer_cards_file->id }})" wire:loading.attr="disabled" wire:loading.target="deleteFile" class="ml-3">Delete File</x-jet-danger-button>
+
         </div>
         
         <x-flash-messages.message-block />

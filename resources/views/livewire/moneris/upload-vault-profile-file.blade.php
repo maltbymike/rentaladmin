@@ -4,19 +4,29 @@
 
         @empty($vault_file)
 
-            <input type="file" wire:model="file" class="border p-2" />
+            <div class="flex justify-between items-center py-3 gap-3">
 
-            <x-jet-button wire:click.prevent="uploadMonerisVaultProfileFile" :disabled="$isDisabled" class="ml-3">Upload</x-jet-button>
+                <input type="file" wire:model="file" class="border p-2" />
 
+                <x-jet-button wire:click.prevent="uploadMonerisVaultProfileFile" :disabled="$isDisabled" class="ml-3">Upload</x-jet-button>
+
+            </div>
+            
             <x-flash-messages.message-block for="file" />
 
         @else
 
             <!-- TODO - Show Progress Bar -->
 
-            <span class="p-2">{{ $vault_file->file_name }}</span>
+            <div class="flex justify-between items-center py-3 gap-3">
+                    
+                <span class="p-2">{{ $vault_file->file_name }}</span>
 
-            <x-jet-button wire:click.prevent="queueVaultProfilesForProcessing({{ $vault_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorPaymentsForProcessing" class="ml-3">Process File</x-jet-button>
+                <x-jet-button wire:click.prevent="queueVaultProfilesForProcessing({{ $vault_file->id }})" wire:loading.attr="disabled" wire:loading.target="queuePorPaymentsForProcessing" class="ml-3">Process File</x-jet-button>
+
+                <x-jet-danger-button wire:click.prevent="deleteFile({{ $vault_file->id }})" wire:loading.attr="disabled" wire:loading.target="deleteFile" class="ml-3">Delete File</x-jet-danger-button>
+
+            </div>
 
             <x-flash-messages.message-block />
 

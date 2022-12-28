@@ -16,6 +16,18 @@ class UploadFile extends Component
     public $file;
     public $isDisabled = true;
 
+    public function deleteFile(Upload $upload)
+    {
+        // Remove the file from storage
+        $delete = Storage::disk(config('app.uploads.disk'))->delete($upload->path);
+
+        // Delete the record from the database
+        $upload->delete();
+
+        // Flash sesion message
+        session()->flash('success', 'File removed from storage');
+    }
+
     protected function save(string $path = '', string $collection = '')
     {
         // TODO - Add authorization
