@@ -17,7 +17,11 @@
         <div class="flex flex-col max-w-fit">
         
             <label for="show-expired">Expiry Date</label>
-            <select wire:model="showExpired" id="show-expired" class="py-0 pl-1 rounded-lg">
+            <select id="show-expired" 
+                class="py-0 pl-1 rounded-lg"
+                wire:model="showExpired" 
+                {{ $filterForDeletion ? 'disabled' : '' }}>
+                
                 <option value="1">Show All</option>
                 <option value="2">Only Expired</option>
                 <option value="3">Only Unexpired</option>
@@ -29,7 +33,11 @@
         <div class="flex flex-col max-w-fit">
         
             <label for="show-tokens-in-por">Match POR Tokens</label>
-            <select wire:model="matchPorTokens" id="show-tokens-in-por" class="py-0 pl-1 rounded-lg">
+            <select id="show-tokens-in-por"
+                class="py-0 pl-1 rounded-lg"
+                wire:model="matchPorTokens" 
+                {{ $filterForDeletion ? 'disabled' : '' }}>
+
                 <option value="1">Show All</option>
                 <option value="2">Only Tokens in POR</option>
                 <option value="3">Only Tokens not in POR</option>
@@ -40,11 +48,38 @@
         <div class="flex flex-col min-w-fit items-center">
 
             <label for="show-avs">Show AVS</label>
-            <input type="checkbox" wire:model="showAVS" class="mt-1 rounded-full"/>
+            <input type="checkbox"
+                class="mt-1 rounded-full"
+                wire:model="showAVS" />
             
         </div>
 
-    
+        @if($filterForDeletion)
+        
+            <x-tools.secondary-button
+                wire:click.prevent="filterForDeletion(false)"
+                wire:loading.attr="disabled"
+                wire:loading.target="filterForDeletion"
+                class="mt-auto ml-auto">
+                
+                Return to Lookup
+            </x-tools.secondary-button>
+
+            <div class="mt-auto" wire:loading.remove>
+                <livewire:moneris.delete-vault-profiles />
+            </div>
+        
+        @else
+            <x-tools.secondary-button 
+                wire:click.prevent="filterForDeletion" 
+                wire:loading.attr="disabled" 
+                wire:loading.target="filterForDeletion" 
+                class="mt-auto ml-auto">
+                
+                Filter for Deletion
+            </x-tools.secondary-button>
+        @endif
+        
     </div>
 
     <div class="flex flex-col items-center justify-center w-full">
