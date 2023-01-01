@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\MonerisController;
 use App\Http\Controllers\TimeclockController;
-use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Moneris\ProcessVaultProfilesFileController;
 
 use Illuminate\Support\Facades\Route;
@@ -37,5 +36,4 @@ Route::middleware([
 
     Route::get('/timeclock', [TimeclockController::class, 'show'])->name('timeclock');
 
-    Route::post('/upload', UploadController::class)->name('upload');
 });
