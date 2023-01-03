@@ -37,6 +37,6 @@ Route::middleware([
 
     Route::get('/timeclock', [TimeclockController::class, 'show'])->name('timeclock');
 
-    Route::get('/user/profile/permissions', [UserPermissionController::class, 'show'])->name('profile.permissions.show');
+    Route::get('/user/profile/{user}/permissions', [UserPermissionController::class, 'show'])->name('profile.permissions.show');
 
 });

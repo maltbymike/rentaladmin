@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserPermissionController extends Controller
@@ -13,11 +14,12 @@ class UserPermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function show(Request $request)
+    public function show(Request $request, $user)
     {
         return view('profile.permissions.show', [
             'request' => $request,
-            'user' => $request->user(),
+            'currentUser' => $request->user(),
+            'userToModify' => $user,
         ]);
     }
 

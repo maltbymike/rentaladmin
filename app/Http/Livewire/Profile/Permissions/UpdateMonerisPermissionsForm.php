@@ -5,17 +5,24 @@ namespace App\Http\Livewire\Profile\Permissions;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-class UpdateUserPermissionsForm extends UpdatePermissions
+class UpdateMonerisPermissionsForm extends UpdatePermissions
 {
-
     /**
      * The component's state.
      *
      * @var array
      */
     public $permissions = [
-        'update_user_permissions' => false,
+        'manage_moneris_vault_tokens' => false,
+        'view_moneris_vault_tokens' => false,
     ];
+
+    /**
+     * The user that should be modified
+     * 
+     * @var App\Models\User
+     */
+    public $userToModify;
 
     /**
      * The rules to be applied to the data.
@@ -23,8 +30,27 @@ class UpdateUserPermissionsForm extends UpdatePermissions
      * @var array
      */
     protected $rules = [
-        'permissions.update_user_permissions' => 'boolean',
+        'permissions.*' => 'boolean',
+        'permissions.view_moneris_vault_tokens' => 'accepted_if:permissions.manage_moneris_vault_tokens,true',
     ];
+
+    /**
+     * The messages that should be returned on validation failure
+     * 
+     * @var array
+     */
+    protected $messages = [
+        'accepted_if' => 'The [:attribute] option must be selected when the [:other] option is :value.',
+    ];
+
+    /**
+     * The attribute names that should be used on validation failure
+     */
+    protected $validationAttributes = [
+        'permissions.manage_moneris_vault_tokens' => 'Manage Moneris Vault Tokens',
+        'permissions.view_moneris_vault_tokens' => 'View Moneris Vault Tokens',
+    ];
+        
 
     /**
      * Mount the component
@@ -47,15 +73,15 @@ class UpdateUserPermissionsForm extends UpdatePermissions
      */
     public function render()
     {
-        return view('livewire.profile.permissions.update-user-permissions-form');
+        return view('livewire.profile.permissions.update-moneris-permissions-form');
     }
 
-    /**
+        /**
      * Save changes to user permissions
      * 
      * @return void
      */
-    public function updateUserPermissions()
+    public function updateMonerisPermissions()
     {
 
         // Validate input
@@ -63,7 +89,8 @@ class UpdateUserPermissionsForm extends UpdatePermissions
 
         // Build array of permissions to be updated
         $permissionsToUpdate = [
-            'update user permissions' => $this->permissions['update_user_permissions'],
+            'manage moneris vault tokens' => $this->permissions['manage_moneris_vault_tokens'],
+            'view moneris vault tokens' => $this->permissions['view_moneris_vault_tokens'],
         ];
 
         // Attempt to update user permissions
@@ -75,5 +102,4 @@ class UpdateUserPermissionsForm extends UpdatePermissions
         }
 
     }
-
 }

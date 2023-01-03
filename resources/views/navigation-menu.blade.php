@@ -100,7 +100,7 @@
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('profile.permissions.show') }}">
+                            <x-jet-dropdown-link href="{{ route('profile.permissions.show', ['user' => request()->user()->id]) }}">
                                 {{ __('Permissions') }}
                             </x-jet-dropdown-link>
 
@@ -167,7 +167,7 @@
                     {{ __('Profile') }}
                 </x-jet-responsive-nav-link>
 
-                <x-jet-responsive-nav-link href="{{ route('profile.permissions.show') }}" :active="request()->routeIs('profile.permissions.show')">
+                <x-jet-responsive-nav-link href="{{ route('profile.permissions.show', ['user' => request()->user()->id] ) }}" :active="request()->routeIs('profile.permissions.show')">
                     {{ __('Permissions') }}
                 </x-jet-responsive-nav-link>
 
