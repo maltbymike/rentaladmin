@@ -3,6 +3,7 @@
 use App\Http\Controllers\MonerisController;
 use App\Http\Controllers\TimeclockController;
 use App\Http\Controllers\Moneris\ProcessVaultProfilesFileController;
+use App\Http\Controllers\User\UserPermissionController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,7 @@ Route::middleware([
     Route::get('/moneris/vault-profiles', [MonerisController::class, 'showVaultProfiles'])->name('moneris.showVaultProfiles');
 
     Route::get('/timeclock', [TimeclockController::class, 'show'])->name('timeclock');
+
+    Route::get('/user/profile/permissions', [UserPermissionController::class, 'show'])->name('profile.permissions.show');
 
 });

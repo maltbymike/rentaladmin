@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Needed for Alpine x-cloak to work */
+[x-cloak] { display: none !important; }
