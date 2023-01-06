@@ -1,6 +1,6 @@
 <x-jet-form-section submit="updateUserPermissions">
     <x-slot name="title">
-        {{ __('User Management') }}
+        {{ __('User Permissions') }}
     </x-slot>
 
     <x-slot name="description">

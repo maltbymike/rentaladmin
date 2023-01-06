@@ -1,6 +1,6 @@
 <x-jet-form-section submit="updateMonerisPermissions">
     <x-slot name="title">
-        {{ __('Moneris Vault') }}
+        {{ __('Moneris Vault Permissions') }}
     </x-slot>
 
     <x-slot name="description">
