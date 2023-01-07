@@ -18,7 +18,7 @@ class UpdatePermissions extends Component
     public function updatePermissions($user, array $input)
     {
 
-        if (! auth()->user()->can('update user permissions')) {
+        if ( auth()->user()->can('update user permissions')) {
             
             session()->flash('failure', __('This user is not authorized to update user permissions!'));
 

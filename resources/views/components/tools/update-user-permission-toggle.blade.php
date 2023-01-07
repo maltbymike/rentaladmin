@@ -1,3 +1,3 @@
-<x-tools.toggle-button {{ $attributes }} :disabled="Auth::user()->cannot('update user permissions')">
+<x-tools.toggle-button {{ $attributes }}>
     {{ $slot }}
 </x-tools.toggle-button>
