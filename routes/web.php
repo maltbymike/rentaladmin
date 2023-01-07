@@ -27,16 +27,31 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 
-    Route::get('/moneris/expiring', [MonerisController::class, 'showExpiring'])->name('moneris.showExpiring');
-    Route::get('/moneris/point-of-rental-payment-tokens', [MonerisController::class, 'showPointOfRentalPaymentTokens'])->name('moneris.showPointOfRentalPaymentTokens');
-    Route::get('/moneris/vault-profiles', [MonerisController::class, 'showVaultProfiles'])->name('moneris.showVaultProfiles');
 
-    Route::get('/timeclock', [TimeclockController::class, 'show'])->name('timeclock');
+    Route::get('/dashboard', function () { return view('dashboard'); })
+        ->name('dashboard');
 
-    Route::get('/user/profile/{user}/permissions', [UserPermissionController::class, 'show'])->name('profile.permissions.show');
+
+    Route::middleware('can:view moneris vault tokens')->group(function () {    
+        
+        Route::get('/moneris/expiring', [MonerisController::class, 'showExpiring'])
+            ->name('moneris.showExpiring');
+        
+        Route::get('/moneris/point-of-rental-payment-tokens', [MonerisController::class, 'showPointOfRentalPaymentTokens'])
+            ->name('moneris.showPointOfRentalPaymentTokens');
+        
+        Route::get('/moneris/vault-profiles', [MonerisController::class, 'showVaultProfiles'])
+            ->name('moneris.showVaultProfiles');
+    
+    });
+
+
+    Route::get('/timeclock', [TimeclockController::class, 'show'])
+        ->name('timeclock');
+
+        
+    Route::get('/user/profile/{user}/permissions', [UserPermissionController::class, 'show'])
+        ->name('profile.permissions.show');
 
 });
