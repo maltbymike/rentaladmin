@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::middleware([
     'auth:sanctum',
@@ -29,7 +29,7 @@ Route::middleware([
 ])->group(function () {
 
 
-    Route::get('/dashboard', function () { return view('dashboard'); })
+    Route::get('/', function () { return view('dashboard'); })
         ->name('dashboard');
 
 
@@ -50,7 +50,7 @@ Route::middleware([
     Route::get('/timeclock', [TimeclockController::class, 'show'])
         ->name('timeclock');
 
-        
+
     Route::get('/user/profile/{user}/permissions', [UserPermissionController::class, 'show'])
         ->name('profile.permissions.show');
 
