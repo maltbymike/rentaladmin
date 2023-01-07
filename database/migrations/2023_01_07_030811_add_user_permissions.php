@@ -18,6 +18,7 @@ return new class extends Migration
         Permission::create(['name' => 'manage moneris vault tokens']);
         Permission::create(['name' => 'view moneris vault tokens']);
         Permission::create(['name' => 'update user permissions']);
+        Permission::create(['name' => 'manage users']);
     }
 
     /**
