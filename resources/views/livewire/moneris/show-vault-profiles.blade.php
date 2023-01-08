@@ -1,16 +1,20 @@
 <div>
 
-    <div class="w-full text-xs flex gap-3 p-3 bg-gray-50">
-        
-        <livewire:moneris.upload-vault-profile-file />
-        
-        <div class="ml-auto">
+    <x-flash-messages.message-block />
 
-            <x-tools.delete-all-records-dropdown wire:click="deleteAllVaultRecords" />
+    @can('manage moneris vault tokens')
+        <div class="w-full text-xs flex gap-3 p-3 bg-gray-50">
+            
+            <livewire:moneris.upload-vault-profile-file />
+            
+            <div class="ml-auto">
+
+                <x-tools.delete-all-records-dropdown wire:click="deleteAllVaultRecords" />
+
+            </div>
 
         </div>
-
-    </div>
+    @endcan
 
     <div class="w-full text-xs flex gap-3 p-3">
 
@@ -54,32 +58,36 @@
             
         </div>
 
-        @if($filterForDeletion)
-        
-            <x-tools.secondary-button
-                wire:click.prevent="filterForDeletion(false)"
-                wire:loading.attr="disabled"
-                wire:loading.target="filterForDeletion"
-                class="mt-auto ml-auto">
-                
-                Return to Lookup
-            </x-tools.secondary-button>
+        @can('manage moneris vault tokens')
+            
+            @if($filterForDeletion)
+            
+                <x-tools.secondary-button
+                    wire:click.prevent="filterForDeletion(false)"
+                    wire:loading.attr="disabled"
+                    wire:loading.target="filterForDeletion"
+                    class="mt-auto ml-auto">
+                    
+                    Return to Lookup
+                </x-tools.secondary-button>
 
-            <div class="mt-auto" wire:loading.remove>
-                <livewire:moneris.delete-vault-profiles />
-            </div>
+                <div class="mt-auto" wire:loading.remove>
+                    <livewire:moneris.delete-vault-profiles />
+                </div>
+            
+            @else
+                <x-tools.secondary-button 
+                    wire:click.prevent="filterForDeletion" 
+                    wire:loading.attr="disabled" 
+                    wire:loading.target="filterForDeletion" 
+                    class="mt-auto ml-auto">
+                    
+                    Filter for Deletion
+                </x-tools.secondary-button>
+            @endif
         
-        @else
-            <x-tools.secondary-button 
-                wire:click.prevent="filterForDeletion" 
-                wire:loading.attr="disabled" 
-                wire:loading.target="filterForDeletion" 
-                class="mt-auto ml-auto">
-                
-                Filter for Deletion
-            </x-tools.secondary-button>
-        @endif
-        
+        @endcan
+
     </div>
 
     <div class="flex flex-col items-center justify-center w-full">

@@ -27,13 +27,28 @@ class ShowVaultProfiles extends Component
 
     public function deleteAllVaultRecords() 
     {
-        // TODO - Ensure person is authorized
+        // Ensure user is authorized
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
+
+            return false;
+        
+        }
+
         $delete = MonerisToken::where('data_key', '!=', '')->delete();
     }
 
     public function filterForDeletion($flag = true)
     {
-        // TODO - Ensure person is authorized
+        // Ensure person is authorized
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
+
+            return false;
+        
+        }
 
         // Reset properties that affect filtering
         $this->reset(['showExpired', 'matchPorTokens']);

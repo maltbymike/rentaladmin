@@ -10,8 +10,17 @@ class ShowPointOfRentalPaymentTokens extends Component
 {
     public function deleteAllPorTokenRecords()
     {
-        // TODO - Ensure person is authorized
+
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
+
+            return false;
+        
+        }
+ 
         $delete = MonerisPorPaymentToken::where('payment_id', '!=', '')->delete();
+ 
     }
 
     public function render()

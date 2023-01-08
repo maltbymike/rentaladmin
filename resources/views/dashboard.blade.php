@@ -8,10 +8,12 @@
         <div class="col-span-full">Time Clock</div>
         <x-page-icon.timeclock />
         
-        <div class="col-span-full">Moneris</div>
-        <x-page-icon.moneris-expiring />
-        <x-page-icon.moneris-show-vault-profiles />
-        <x-page-icon.point-of-rental-payment-tokens />
+        @can('view moneris vault tokens')
+            <div class="col-span-full">Moneris</div>
+            <x-page-icon.moneris-expiring />
+            <x-page-icon.moneris-show-vault-profiles />
+            <x-page-icon.point-of-rental-payment-tokens />
+        @endcan
 
     </div>
 

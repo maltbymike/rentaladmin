@@ -30,7 +30,6 @@ class UploadFile extends Component
 
     protected function save(string $path = '', string $collection = '')
     {
-        // TODO - Add authorization
 
         if ($path !== '') {
             

@@ -27,8 +27,16 @@ class UploadPorCustomerCardsFile extends UploadFile
 
     public function queuePorCustomerCardsForProcessing(Upload $upload)
     {
-        // TODO - Add Authorization
+        
+        // Check authorization
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
 
+            return false;
+        
+        }
+        
         // Get filename
         $file = Storage::disk(config('app.uploads.disk'))->get($upload->path);
 

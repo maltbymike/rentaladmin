@@ -14,6 +14,15 @@ class DeleteVaultProfiles extends Component
     
     public function queueTokensForDeletion()
     {
+        // Ensure user is authorized
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
+
+            return false;
+        
+        }
+
         // Get Tokens Stored in moneris_por_payment_token table for comparison with moneris_vault_profiles
         $porTokens = MonerisPorPaymentToken::getUniqueTokensWithoutNull()
             ->pluck('por_token')
