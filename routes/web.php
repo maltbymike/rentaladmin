@@ -4,6 +4,7 @@ use App\Http\Controllers\MonerisController;
 use App\Http\Controllers\TimeclockController;
 use App\Http\Controllers\Moneris\ProcessVaultProfilesFileController;
 use App\Http\Controllers\User\UserPermissionController;
+use App\Http\Controllers\User\UserController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware([
         ->name('dashboard');
 
 
+    // Moneris Token Routes
     Route::middleware('can:view moneris vault tokens')->group(function () {    
         
         Route::get('/moneris/expiring', [MonerisController::class, 'showExpiring'])
@@ -47,10 +49,14 @@ Route::middleware([
     });
 
 
+    // Timeclock Routes
     Route::get('/timeclock', [TimeclockController::class, 'show'])
         ->name('timeclock');
 
 
+    // User Management Routes
+    Route::get('/user/profile/create', [UserController::class, 'create'])
+        ->name('profile.create');
     Route::get('/user/profile/{user}/permissions', [UserPermissionController::class, 'show'])
         ->name('profile.permissions.show');
 

@@ -15,6 +15,7 @@ class UpdateUserPermissionsForm extends UpdatePermissions
      */
     public $permissions = [
         'update_user_permissions' => false,
+        'manage_users' => false,
     ];
 
     /**
@@ -23,7 +24,25 @@ class UpdateUserPermissionsForm extends UpdatePermissions
      * @var array
      */
     protected $rules = [
-        'permissions.update_user_permissions' => 'boolean',
+        'permissions.*' => 'boolean',
+        'permissions.update_user_permissions' => 'accepted_if:permissions.manage_users,true'
+    ];
+
+    /**
+     * The messages that should be returned on validation failure
+     * 
+     * @var array
+     */
+    protected $messages = [
+        'accepted_if' => 'The [:attribute] option must be selected when the [:other] option is :value.',
+    ];
+
+    /**
+     * The attribute names that should be used on validation failure
+     */
+    protected $validationAttributes = [
+        'permissions.manage_users' => 'Manage Users',
+        'permissions.update_user_permissions' => 'Update User Permissions',
     ];
 
     /**
@@ -64,6 +83,7 @@ class UpdateUserPermissionsForm extends UpdatePermissions
         // Build array of permissions to be updated
         $permissionsToUpdate = [
             'update user permissions' => $this->permissions['update_user_permissions'],
+            'manage users' => $this->permissions['manage_users'],
         ];
 
         // Attempt to update user permissions

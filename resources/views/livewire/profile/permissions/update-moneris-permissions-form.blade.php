@@ -9,13 +9,13 @@
 
     <x-slot name="form">
         <!-- Failure Messages -->
-        <div class="col-span-full">
-            @if (session()->has('failure'))
+        @if (session()->has('failure'))
+            <div class="col-span-full">
                 <x-flash-messages.error-message>
                     {{ session('failure') }}
                 </x-flash-messages.error-message>
-            @endif
-        </div>
+            </div>
+        @endif
 
         <!-- Manage Tokens -->
         <div class="col-span-6 align-middle">
@@ -26,7 +26,7 @@
             <x-jet-input-error for="permissions.manage_moneris_vault_tokens" class="mt-2" />
         </div>
 
-        <!-- Manage Tokens -->
+        <!-- View Tokens -->
         <div class="col-span-6 align-middle">
             <div class="flex items-center gap-3">
                 <x-tools.update-user-permission-toggle wire:model="permissions.view_moneris_vault_tokens"> {{ __('View Moneris Vault Tokens') }}</x-tools.update-user-permission-toggle>
