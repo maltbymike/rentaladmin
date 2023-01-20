@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\MonerisController;
-use App\Http\Controllers\TimeclockController;
 use App\Http\Controllers\Moneris\ProcessVaultProfilesFileController;
 use App\Http\Controllers\User\UserPermissionController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Livewire\Timeclock\ShowTimeclock;
 
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +50,7 @@ Route::middleware([
 
 
     // Timeclock Routes
-    Route::get('/timeclock', [TimeclockController::class, 'show'])
+    Route::get('/timeclock', ShowTimeclock::class)
         ->name('timeclock');
 
 

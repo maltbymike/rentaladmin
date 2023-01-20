@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Timeclock\TimeclockEntry;
+use App\Models\Timeclock\TimeclockEntryType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,4 +62,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Timeclock Entries Relationship
+     *
+     * @return App\Models\Timeclock\TimeclockEntry
+     */
+    public function timeclockEntries()
+    {
+        return $this->hasMany(TimeClockEntry::class);
+    }
 }
