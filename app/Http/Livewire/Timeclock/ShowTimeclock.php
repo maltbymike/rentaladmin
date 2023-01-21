@@ -102,7 +102,7 @@ class ShowTimeclock extends Component
                 
             }
 
-            // If there is no final clock out then set a dummy clock out to now
+            // If there is no final clock out then set a dummy clock out to now to allow for visualization
             if ( ( ! isset( $formatedTimeclockEntry[$i]['out'] ) ) && ( isset( $formatedTimeclockEntry[$i]['in'] ) ) ) {
 
                 $currentLocalTime = now($this->timezone);
@@ -143,11 +143,23 @@ class ShowTimeclock extends Component
         $difference = $localClockIn->diffInSeconds($clockOutTimestamp);
         $secondsToMidnight = $localClockIn->diffInSeconds($localMidnight);
 
-        if ($difference > $secondsToMidnight) {
+        if ($difference < 60) {
+            
+            // If there is less than 1 minute difference between clock in and out then add 1 minute to clockout to allow for visualization
+            return $clockOutTimestamp->addMinute();
+        
+        } elseif ($difference > $secondsToMidnight) {
+
+            // If there is more time between clock in and out then the time between clockin and midnight then return midnight
             return $localMidnight;
+
         } else {
+
+            // Otherwise return clock out time
             return $clockOutTimestamp;
+
         }
+
     }
 
     protected function getFormatedTimestampArray($timestamp, $color = '#0F172A')

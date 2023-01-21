@@ -77,7 +77,6 @@
         google.charts.load('current', {'packages':['timeline']});
 
         function drawChart(chartData) {
-            console.log('test');
             
             var container = document.getElementById('timeline');
             var chart = new google.visualization.Timeline(container);
@@ -119,8 +118,6 @@
             };
             chart.draw(dataTable, options);
 
-            tryingThings = new Set(chartData.map(value => value.in.day)).size;
-            console.log(tryingThings);
         }
     </script>
 
