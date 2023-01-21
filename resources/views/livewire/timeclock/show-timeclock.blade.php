@@ -51,24 +51,22 @@
                 x-init="drawChart(chartData[{{ $currentUserIndex }}])"
                 @clock-in-or-out-completed.camel.window="drawChart(chartData[{{ $currentUserIndex }}])"
                 >
-                
+    
+                <!-- Placeholder for chart -->
                 <div id="timeline"></div>
-
-                <!-- @foreach ( $timeclockUsers[$currentUserIndex]->timeClockEntries as $entry )
-                    <div class="flex gap-3">
-                        <div>{{ $entry->is_start_time === true ? 'In' : 'Out' }}</div>
-                        <div>{{ $entry->created_at }}</div>
-                    </div>
-                @endforeach -->
 
             </div>
             
             <button class="md:col-start-2 py-6 border rounded-full text-xl cursor-pointer shadow-xl hover:bg-orange-100 active:bg-orange-500 focus:bg-orange-100 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 wire:click="clockInOrOut({{ $timeclockUsers[$currentUserIndex]->id }})"
                 >
-                {{ $timeclockUsers[$currentUserIndex]->timeClockEntries->last()->is_start_time 
-                    ? "Clock Out" 
-                    : "Clock In" }}
+                @if ($timeclockUsers[$currentUserIndex]->timeclockEntries->last())
+                    {{ $timeclockUsers[$currentUserIndex]->timeClockEntries->last()->is_start_time 
+                        ? "Clock Out" 
+                        : "Clock In" }}
+                @else
+                    Clock In
+                @endif
             </button>
         </div>
 
@@ -95,7 +93,7 @@
                 return [
                     data.in.day,
                     null,
-                    data.in.hour + ":" + data.in.minute.toString().padStart(2, '0') + ":" + data.in.second.toString().padStart(2, '0') + " - " + data.out.hour + ":" + data.out.minute.toString().padStart(2, '0') + ":" + data.out.second.toString().padStart(2, '0'),
+                    data.in.hour + ":" + data.in.minute.toString().padStart(2, '0') + " - " + data.out.hour + ":" + data.out.minute.toString().padStart(2, '0'),
                     data.out.color,
                     new Date(0, 0, 0, data.in.hour, data.in.minute),
                     new Date(0, 0, 0, data.out.hour, data.out.minute),
