@@ -4,6 +4,10 @@
         <x-tools.show-current-date-and-time class="text-5xl flex flex-col items-center justify-center py-6 px-16" />
     </div>
 
+    @if($currentTimeclockUser === null)
+        <livewire:timeclock.show-timeclock-users />
+    @endif
+
     @if($currentUserIndex === null)
 
         <input 

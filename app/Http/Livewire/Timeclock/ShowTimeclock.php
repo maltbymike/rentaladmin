@@ -13,13 +13,18 @@ use Livewire\Component;
 class ShowTimeclock extends Component
 {
 
+    public User $user;
     public ?int $currentUserIndex = null;
+    public ?int $currentTimeclockUser = null;
     public Collection $timeclockUsers;
     public string $query = '';
     public ?int $timeclockEntryType = null;
     public string $timezone = 'America/Toronto';
     public array $formatedTimeclockEntry = [];
 
+    protected $queryString = [
+        'currentTimeclockUser' => ['except' => null, 'as' => 'cu'],
+    ];
 
     public function clockInOrOut(User $user)
     {

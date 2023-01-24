@@ -4,7 +4,8 @@ use App\Http\Controllers\MonerisController;
 use App\Http\Controllers\Moneris\ProcessVaultProfilesFileController;
 use App\Http\Controllers\User\UserPermissionController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Livewire\Timeclock\ShowTimeclock;
+use App\Http\Livewire\Timeclock\ShowTimeclockClockInOut;
+use App\Http\Livewire\Timeclock\ShowTimeclockUsers;
 
 use Illuminate\Support\Facades\Route;
 
@@ -50,9 +51,10 @@ Route::middleware([
 
 
     // Timeclock Routes
-    Route::get('/timeclock', ShowTimeclock::class)
+    Route::get('/timeclock/{user}/clock-in-out', ShowTimeclockClockInOut::class)
         ->name('timeclock');
-
+    Route::get('/timeclock/users', ShowTimeclockUsers::class)
+        ->name('timeclock.users');
 
     // User Management Routes
     Route::get('/user/profile/create', [UserController::class, 'create'])
