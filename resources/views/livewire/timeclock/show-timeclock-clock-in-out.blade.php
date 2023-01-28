@@ -17,6 +17,8 @@
         <!-- <x-jet-button class="py-6 border rounded-full text-xl cursor-pointer shadow-xl bg-gray-700 text-white hover:bg-orange-100 active:bg-orange-500 focus:bg-orange-100 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" -->
         <x-jet-button class="py-6 rounded-full text-xl cursor-pointer shadow-xl justify-center"
             wire:click="clockInOrOut({{ $user->id }})"
+            wire:loading.attr="disabled"
+            wire:target="clockInOrOut"
             >
             @if ($user->timeclockEntries->last())
                 {{ $user->timeClockEntries->last()->is_start_time 
