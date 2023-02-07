@@ -66,7 +66,7 @@ class User extends Authenticatable
     /**
      * Timeclock Entries Relationship
      *
-     * @return App\Models\Timeclock\TimeclockEntry
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function timeclockEntries()
     {

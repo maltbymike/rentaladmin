@@ -14,11 +14,18 @@ class ShowTimeclockClockInOut extends Component
     use WithConfirmation;
 
     public array $formatedTimeclockEntry = [];
-    public User $user;
-    public string $timezone = 'America/Toronto';
+
+    public bool $isClockIn = true;
 
     public ?TimeclockEntry $lastEntry;
+
     protected int $minimumDifferenceBetweenTimeclockEntries = 5 * 60;
+
+    public ?int $timeclockEntryTypeId;
+
+    public string $timezone = 'America/Toronto';
+
+    public User $user;
 
     protected $listeners = [
         'confirmDeleteLastTimeclockEntry' => 'deleteLastTimeclockEntry',
@@ -28,33 +35,76 @@ class ShowTimeclockClockInOut extends Component
     public function clockInOrOut()
     {
         // TODO check permissions
-        // TODO prompt for confirmation if clocking in or out within a set period of time from the last entry
-        // TODO prompt if clockout was more then set period of time from last clockin
 
-        $isLastEntryAStartTime = $this->wasLastEntryAStartTime();
+        $lastEntry = $this->user->timeclockEntries->last();
 
-        if ($this->lastEntry === null || $this->lastEntry->created_at->diffInSeconds(now()) > $this->minimumDifferenceBetweenTimeclockEntries) {
+        if ($lastEntry) {
 
-            // If last timeclock entry is more than the minimum difference between entries then persist the entry
-            $this->persistNewTimeclockEntry($isLastEntryAStartTime);
+            if ($lastEntry->clock_out_at !== null) {
+
+                if ($this->isClockPastMinimumInterval($lastEntry->clock_out_at)) {
+
+                    $this->clockIn();
+
+                }
+
+            } else {
+
+                if ($this->isClockPastMinimumInterval($lastEntry->clock_in_at)) {
+
+                    $this->clockOut($lastEntry);
+
+                }
+
+            }
 
         } else {
 
-            // If timeclock entry is less than the minimum difference then prompt for confirmation
-            $lastEntryCreatedAt = $this->lastEntry->created_at->setTimezone($this->timezone)->format('h:ia');
-            $this->emit('sendConfirmation', "Your last timeclock entry was at $lastEntryCreatedAt.  Would you like to delete your previous timeclock entry?", 'confirmDeleteLastTimeclockEntry');
+            $this->clockIn();
 
         }
 
+        $this->loadTimeclockEntries();
+
+        $this->drawChart();
+
+    }
+
+    public function clockIn($timestamp = null)
+    {
+
+        if ($timestamp === null) {
+            $timestamp = now();
+        }
+
+        $entry = new TimeclockEntry;
+        $entry->clock_in_at = $timestamp;
+        $entry->entryType()->associate($this->timeclockEntryTypeId);
+
+        $this->user->timeclockEntries()->save($entry);
+    
+    }
+
+    public function clockOut(TimeclockEntry $lastEntry, $timestamp = null)
+    {
+        if ($timestamp === null) {
+            $timestamp = now();
+        }
+
+        $lastEntry->clock_out_at = $timestamp;
+        $lastEntry->save();
     }
 
     public function deleteLastTimeclockEntry()
     {
-        $this->lastEntry->delete();
+        if ($this->isClockIn) {
+            $this->user->timeclockEntries->last()->clock_out_at = null;
+            $this->user->timeclockEntries->last()->save();
+        } else {
+            $this->user->timeclockEntries->last()->forceDelete();
+        }
 
-        $this->user->refresh();
-
-        $this->drawChart();
+        $this->loadTimeclockEntries();
     }
 
     public function drawChart()
@@ -68,98 +118,62 @@ class ShowTimeclockClockInOut extends Component
     {
 
         // initialize variable we will need
-        $formatedTimeclockEntry = [];
+        $formatedEntry = [];
         $i = 0;
 
         // Loop through timeclock entries to create array to feed to google charts timeline
         foreach ($this->user->timeclockEntries->sortBy('created_at') as $entry) {
 
             // Apply Timezone to created_at timestamp
-            $localtime = $entry->created_at->setTimezone($this->timezone);
+            $localClockInAt = $entry->clock_in_at->setTimezone($this->timezone);
 
-            // Entry is a clock in
-            if ($entry->is_start_time) {
-
-                // Check if the current formatedTimeclockEntry has a clockIn value
-                // Increment array key if there is already an clockIn value
-                if (isset($formatedTimeclockEntry[$i]['in']['timestamp'])) {
-                    $i++;
-                }
-
-                // Set clockIn properties
-                $formatedTimeclockEntry[$i]['in'] = $this->getFormatedTimestampArray($localtime);
-
-            // Entry is a clock out
+            if ($entry->clock_out_at) {
+                $localClockOutAt = $entry->clock_out_at->setTimezone($this->timezone);
+                $color = null;
             } else {
-
-                // Check if the current formatedTimeclockEntry has a clockOut value
-                // Increment array key if there is already a clockOut value
-                if (isset($formatedTimeclockEntry[$i]['out']['timestamp'])) {
-                    $i++;
-                }
-
-                // If the date is not the same then add extra entries between clock in and out
-                do {
-                    
-                    // If clockout date is past clock in date get midnight otherwise get clock out time
-                    $clockOutOrMidnight = $this->getClockOutOrMidnight($formatedTimeclockEntry[$i]['in']['timestamp'], $localtime);
-
-                    // Set clockOut time
-                    $formatedTimeclockEntry[$i]['out'] = $this->getFormatedTimestampArray($clockOutOrMidnight);
-                    
-                    if ($localtime !== $clockOutOrMidnight) {
-                        
-                        $i++;
-
-                        // Set clockIn to 00:00:00
-                        $formatedTimeclockEntry[$i]['in'] = $this->getFormatedTimestampArray($clockOutOrMidnight->addSecond());
-                    
-                    }                        
-                    
-                } while ($localtime !== $clockOutOrMidnight);
-
+                $localClockOutAt = now($this->timezone);
+                $color = '#0284C7';
             }
-            
-        }
 
-        // If there is no final clock out then set a dummy clock out to now to allow for visualization
-        if ( ( ! isset( $formatedTimeclockEntry[$i]['out'] ) ) && ( isset( $formatedTimeclockEntry[$i]['in'] ) ) ) {
+            $formatedEntry[$i]['in'] = $this->getFormatedTimestampArray($localClockInAt);
 
-            $currentLocalTime = now($this->timezone);
-
-            // If the date is not the same then add extra entries between clock in and dummy clock out
+            // If the date is not the same then add extra entries between clock in and out
             do {
 
                 // If clockout date is past clock in date get midnight otherwise get clock out time
-                $dummyClockOutOrMidnight = $this->getClockOutOrMidnight($formatedTimeclockEntry[$i]['in']['timestamp'], $currentLocalTime);
-
-                // Set clockOut time
-                $formatedTimeclockEntry[$i]['out'] = $this->getFormatedTimestampArray($dummyClockOutOrMidnight, '#0284C7');
+                $clockOutOrMidnight = $this->getClockOutOrMidnight($localClockInAt, $localClockOutAt);
                 
-                if ($currentLocalTime !== $dummyClockOutOrMidnight) {
-                    
+                // Set clockOut time
+                $formatedEntry[$i]['out'] = $this->getFormatedTimestampArray($clockOutOrMidnight, $color);
+
+                if ($localClockOutAt !== $clockOutOrMidnight) {
+
                     $i++;
 
                     // Set clockIn to 00:00:00
-                    $formatedTimeclockEntry[$i]['in'] = $this->getFormatedTimestampArray($dummyClockOutOrMidnight->addSecond(), '#0284C7');
-                
-                }                        
-                
-            } while ($currentLocalTime !== $dummyClockOutOrMidnight);
+                    $formatedEntry[$i]['in'] = $this->getFormatedTimestampArray($clockOutOrMidnight->addSecond());
+
+                }
+
+            } while ($localClockOutAt !== $clockOutOrMidnight);
+
+            $formatedEntry[$i]['out'] = $this->getFormatedTimestampArray($localClockOutAt, $color);
+
+            $i++;
 
         }
 
-        $this->formatedTimeclockEntry = $formatedTimeclockEntry;
+        $this->formatedTimeclockEntry = $formatedEntry;
 
     }
 
     protected function getClockOutOrMidnight($clockInTimestamp, $clockOutTimestamp)
     {
+
         // If the date is not the same then add extra entries between clock in and out
-        $localClockIn = Carbon::createFromTimestampMs($clockInTimestamp, $this->timezone);
-        $localMidnight = Carbon::createFromTimestampMs($clockInTimestamp, $this->timezone)->endOfDay();
-        $difference = $localClockIn->diffInSeconds($clockOutTimestamp);
-        $secondsToMidnight = $localClockIn->diffInSeconds($localMidnight);
+        $localMidnight = Carbon::createFromTimestampMs($clockInTimestamp->getTimestampMs(), $this->timezone)->endOfDay();
+        $difference = $clockInTimestamp->diffInSeconds($clockOutTimestamp);
+        $secondsToMidnight = $clockInTimestamp->diffInSeconds($localMidnight);
 
         if ($difference < 60) {
             
@@ -180,8 +194,16 @@ class ShowTimeclockClockInOut extends Component
 
     }
 
-    protected function getFormatedTimestampArray($timestamp, $color = '#0F172A')
+    protected function getFormatedTimestampArray($timestamp, $color = null)
     {
+        if ($timestamp === null) {
+            return null;
+        }
+
+        if ($color === null) {
+            $color = '#0F172A';
+        }
+
         return [
             'timestamp' => $timestamp->getTimestampMs(),
             'day' => $timestamp->format('D M j'),
@@ -192,42 +214,50 @@ class ShowTimeclockClockInOut extends Component
         ];
     }
 
+    protected function isClockIn()
+    {
+        if ($this->user->timeclockEntries->last() && $this->user->timeclockEntries->last()->clock_out_at === null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected function isClockPastMinimumInterval($timestamp)
+    {
+
+        if ($timestamp->diffInSeconds(now()) < $this->minimumDifferenceBetweenTimeclockEntries) {
+
+            $lastEntryTime = $timestamp->setTimezone($this->timezone)->format('h:ia');
+            $this->emit('sendConfirmation', "Your last timeclock entry was at $lastEntryTime.  Would you like to delete your previous timeclock entry?", 'confirmDeleteLastTimeclockEntry');
+
+            return false;
+
+        }
+
+        return true;
+    
+    }
+
     protected function loadTimeclockEntries() {
 
         $this->user->load(['timeclockEntries' => function ($query) {
-            $query->where('timeclock_entry_type_id', $this->timeclockEntryType);
+            $query->where('timeclock_entry_type_id', $this->timeclockEntryTypeId);
         }]);
+
+        $this->isClockIn = $this->isClockIn();
 
     }
 
     public function mount(User $user) 
     {
         
-        $this->timeclockEntryType = TimeclockEntryType::firstWhere('name', 'Worked')->id;
+        $this->timeclockEntryTypeId = TimeclockEntryType::firstWhere('name', 'Worked')->id;
 
         $this->loadTimeclockEntries();
 
         $this->getArrayForGoogleChartTimeline();
     
-    }
-
-    public function persistNewTimeclockEntry($isLastEntryAStartTime = null)
-    {
-        if ($isLastEntryAStartTime === null) {
-            $isLastEntryAStartTime = $this->wasLastEntryAStartTime();
-        }
-
-        $entry = new TimeclockEntry;
-        $entry->entryType()->associate($this->timeclockEntryType);
-        $entry->user()->associate($this->user);
-        $entry->is_start_time = ! $isLastEntryAStartTime;
-
-        $entry->save();
-
-        $this->loadTimeclockEntries();
-
-        $this->drawChart();
-        
     }
 
     public function processCancelledConfirmation($callback) 
@@ -244,19 +274,4 @@ class ShowTimeclockClockInOut extends Component
         return view('livewire.timeclock.show-timeclock-clock-in-out');
     }
 
-    protected function wasLastEntryAStartTime()
-    {
-        $lastEntry = $this->user->timeclockEntries()
-            ->where('timeclock_entry_type_id', $this->timeclockEntryType)
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        $this->lastEntry = $lastEntry;
-        
-        if (! $lastEntry) {
-            return false;
-        }
-
-        return $lastEntry->is_start_time;
-    }
 }

@@ -20,13 +20,12 @@
             wire:loading.attr="disabled"
             wire:target="clockInOrOut"
             >
-            @if ($user->timeclockEntries->last())
-                {{ $user->timeClockEntries->last()->is_start_time 
-                    ? "Clock Out" 
-                    : "Clock In" }}
-            @else
+            @if ($isClockIn)
                 Clock In
+            @else
+                Clock Out
             @endif
+    
         </x-jet-button>
  
         <div 

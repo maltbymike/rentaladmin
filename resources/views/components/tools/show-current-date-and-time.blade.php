@@ -23,6 +23,6 @@
 @endonce
 
 <div {{ $attributes }} onload="showtime()">
-    <div id="ClockDisplayDate" class="text-center text-[.5em]"></div>
-    <div id="ClockDisplayTime" class="text-center"></div>
+    <div id="ClockDisplayDate" class="text-center text-[.5em]">&nbsp;</div>
+    <div id="ClockDisplayTime" class="text-center">&nbsp;</div>
 </div>
