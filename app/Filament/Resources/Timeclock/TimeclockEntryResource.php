@@ -41,21 +41,23 @@ class TimeclockEntryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('entryType.name'),
-                Tables\Columns\TextColumn::make('user.name'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('clock_in_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('clock_out_at')
                     ->dateTime(),
+                Tables\Columns\TextColumn::make('clocked_in_time')
+                    ->getStateUsing(function (TimeclockEntry $record) {
+                        if ($record->clock_in_at && $record->clock_out_at) {
+                            return number_format($record->clock_out_at->floatDiffInHours($record->clock_in_at), 2);
+                        }
+                    })
+                    ->extraAttributes(['class' => 'text-center']),
                 Tables\Columns\TextColumn::make('approvedBy.name'),
-                // Tables\Columns\TextColumn::make('replaced_by_timeclock_entry_id'),
                 Tables\Columns\TextColumn::make('approved_at')
                     ->dateTime(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('deleted_at')
-                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

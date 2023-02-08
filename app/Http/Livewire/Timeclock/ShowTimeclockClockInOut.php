@@ -151,11 +151,12 @@ class ShowTimeclockClockInOut extends Component
                     $i++;
 
                     // Set clockIn to 00:00:00
-                    $formatedEntry[$i]['in'] = $this->getFormatedTimestampArray($clockOutOrMidnight->addSecond());
+                    $localClockInAt = $clockOutOrMidnight->addSecond();
+                    $formatedEntry[$i]['in'] = $this->getFormatedTimestampArray($localClockInAt);
 
                 }
 
-            } while ($localClockOutAt !== $clockOutOrMidnight);
+            } while ($localClockOutAt !== $clockOutOrMidnight && $i < 10);
 
             $formatedEntry[$i]['out'] = $this->getFormatedTimestampArray($localClockOutAt, $color);
 
@@ -164,7 +165,7 @@ class ShowTimeclockClockInOut extends Component
         }
 
         $this->formatedTimeclockEntry = $formatedEntry;
-
+        
     }
 
     protected function getClockOutOrMidnight($clockInTimestamp, $clockOutTimestamp)
