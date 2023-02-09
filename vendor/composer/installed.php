@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '84daff4a77f48a8356808344211b023fec479216',
+        'reference' => 'd5dd9677af896477aa9aeef8e1d299cc9e071c40',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -556,7 +556,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '84daff4a77f48a8356808344211b023fec479216',
+            'reference' => 'd5dd9677af896477aa9aeef8e1d299cc9e071c40',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -961,8 +961,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1028,6 +1028,24 @@
             'reference' => 'be41afbd86057989d84f1aaea8d00f3b1e5c50e1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ryangjchandler/blade-capture-directive',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'sammyjo20/saloon' => array(
+            'pretty_version' => 'v2.0.0-beta6',
+            'version' => '2.0.0.0-beta6',
+            'reference' => '8320639e18511f133aa3493ea4e76bf06918e175',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sammyjo20/saloon',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'sammyjo20/saloon-laravel' => array(
+            'pretty_version' => 'v2.0.0-beta6',
+            'version' => '2.0.0.0-beta6',
+            'reference' => 'ecb3594c54690475ee610dcae26e9c05c22587dd',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sammyjo20/saloon-laravel',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
