@@ -29,6 +29,14 @@ class UpdateTokensFromVault extends Component
 
     public function updateTokens()
     {
+        // Check authorization
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
+
+            return false;
+        
+        }
 
         MonerisToken::where('exp_date', null)
             ->orWhere('exp_date', '')

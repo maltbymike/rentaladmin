@@ -15,6 +15,7 @@
 
         <!-- Styles -->
         @livewireStyles
+        @stack('styles')
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -76,6 +77,7 @@
         </div>
 
         @stack('modals')
+        @stack('scripts')
 
         @livewireScripts
     </body>

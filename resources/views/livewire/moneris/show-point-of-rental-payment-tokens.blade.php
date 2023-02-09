@@ -1,14 +1,30 @@
 <div>
 
-    <div class="p-3 mb-3 bg-gray-50">
-        <livewire:moneris.upload-por-payments-file />
-    </div>
+    <x-flash-messages.message-block />
 
-    <div class="overflow-auto whitespace-nowrap">
+    @can('manage moneris vault tokens')
+        <div class="p-3 mb-3 bg-gray-50 w-full flex gap-3">
+        
+            <div class="flex flex-col">
+
+                <livewire:moneris.upload-por-payments-file />
+
+                <livewire:moneris.upload-por-customer-cards-file />
+
+            </div>
+
+            <div class="ml-auto">
+                <x-tools.delete-all-records-dropdown wire:click="deleteAllPorTokenRecords" />
+            </div>  
+
+        </div>
+    @endcan
+
+    <div class="overflow-auto whitespace-nowrap p-3">
 
         {{ $tokens->links() }}
     
-        <table class="w-full">
+        <table class="w-full my-3">
             
             <thead>
                 

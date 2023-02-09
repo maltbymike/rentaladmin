@@ -8,13 +8,28 @@ use Livewire\Component;
 
 class ShowPointOfRentalPaymentTokens extends Component
 {
+    public function deleteAllPorTokenRecords()
+    {
+
+        if (! auth()->user()->can('manage moneris vault tokens')) {
+            
+            session()->flash('failure', __('This user is not authorized to manage moneris vault tokens!'));
+
+            return false;
+        
+        }
+ 
+        $delete = MonerisPorPaymentToken::where('payment_id', '!=', '')->delete();
+ 
+    }
+
     public function render()
     {
+        
         // TODO Add filter for customers that are flagged to not save tokens
         return view('livewire.moneris.show-point-of-rental-payment-tokens', [
             'tokens' =>
-                MonerisPorPaymentToken::selectRaw('por_token, max(date) as date, count(*) as use_count, min(customer_id) as min_customer, max(customer_id) as max_customer')
-                    ->groupBy('por_token')
+                MonerisPorPaymentToken::getUniqueTokens()
                     ->paginate(20)
         ]);
     }
