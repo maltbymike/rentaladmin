@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4f4df2bb807e9f67a23c131a3706030",
+    "content-hash": "32f08ce34892e75856769ae7bdd462d5",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -4766,6 +4766,142 @@
                 }
             ],
             "time": "2022-09-02T11:04:28+00:00"
+        },
+        {
+            "name": "sammyjo20/saloon",
+            "version": "v2.0.0-beta6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sammyjo20/Saloon.git",
+                "reference": "8320639e18511f133aa3493ea4e76bf06918e175"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sammyjo20/Saloon/zipball/8320639e18511f133aa3493ea4e76bf06918e175",
+                "reference": "8320639e18511f133aa3493ea4e76bf06918e175",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5",
+                "guzzlehttp/promises": "^1.5",
+                "php": "^8.1",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "ext-simplexml": "*",
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "illuminate/collections": "^9.39",
+                "league/flysystem": "^3.0",
+                "nunomaduro/phpinsights": "^2.6",
+                "pestphp/pest": "^1.21",
+                "phpstan/phpstan": "^1.9",
+                "spatie/ray": "^1.33",
+                "symfony/dom-crawler": "^6.0",
+                "symfony/stopwatch": "^6.2"
+            },
+            "suggest": {
+                "illuminate/collections": "Required for the response collect() method.",
+                "symfony/dom-crawler": "Required for the response dom() method."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP package for interacting with third-party APIs or building SDKs in a beautiful, reusable way. Cowboy hats included.",
+            "homepage": "https://github.com/sammyjo20/saloon",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "sammyjo20",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/Sammyjo20/Saloon/issues",
+                "source": "https://github.com/Sammyjo20/Saloon/tree/v2.0.0-beta6"
+            },
+            "time": "2023-02-01T21:27:17+00:00"
+        },
+        {
+            "name": "sammyjo20/saloon-laravel",
+            "version": "v2.0.0-beta6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sammyjo20/saloon-laravel.git",
+                "reference": "ecb3594c54690475ee610dcae26e9c05c22587dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sammyjo20/saloon-laravel/zipball/ecb3594c54690475ee610dcae26e9c05c22587dd",
+                "reference": "ecb3594c54690475ee610dcae26e9c05c22587dd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0 || ^9.0",
+                "illuminate/http": "^8.0 || ^9.0",
+                "illuminate/support": "^8.0 || ^9.0",
+                "php": "^8.1",
+                "sammyjo20/saloon": "2.0.0-beta6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "orchestra/testbench": "^6.24 || ^7.7",
+                "pestphp/pest": "^1.21"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Saloon": "Saloon\\Laravel\\Facades\\Saloon"
+                    },
+                    "providers": [
+                        "Saloon\\Laravel\\SaloonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package for Sammyjo20/Saloon",
+            "homepage": "https://github.com/sammyjo20/saloon-laravel",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "sammyjo20",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/Sammyjo20/saloon-laravel/issues",
+                "source": "https://github.com/Sammyjo20/saloon-laravel/tree/v2.0.0-beta6"
+            },
+            "time": "2023-02-01T21:32:41+00:00"
         },
         {
             "name": "spatie/invade",
