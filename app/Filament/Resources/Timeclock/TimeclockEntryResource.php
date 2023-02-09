@@ -42,12 +42,13 @@ class TimeclockEntryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('entryType.name'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->sortable()
-                    ->searchable(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('clock_in_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('clock_out_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('clocked_in_time')
                     ->getStateUsing(function (TimeclockEntry $record) {
                         if ($record->clock_in_at && $record->clock_out_at) {
@@ -60,6 +61,11 @@ class TimeclockEntryResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('user')->relationship('user', 'name'),
+                Tables\Filters\TernaryFilter::make('approved_at')
+                    ->label('Approved')
+                    ->nullable()
+                    ->default(false),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
