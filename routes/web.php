@@ -4,6 +4,7 @@ use App\Http\Controllers\MonerisController;
 use App\Http\Controllers\Moneris\ProcessVaultProfilesFileController;
 use App\Http\Controllers\User\UserPermissionController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Livewire\Products\Categories\GetProductCategoriesFromApi;
 use App\Http\Livewire\Timeclock\ShowTimeclockClockInOut;
 use App\Http\Livewire\Timeclock\ShowTimeclockUsers;
 
@@ -48,6 +49,10 @@ Route::middleware([
             ->name('moneris.showVaultProfiles');
     
     });
+
+    // Products Routes
+    Route::get('/products/categories/get', GetProductCategoriesFromApi::class)
+        ->name('product.categories.get');
 
 
     // Timeclock Routes
