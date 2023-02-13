@@ -10,7 +10,7 @@ use App\Http\Integrations\IRWordpress\Requests\GetProductCategoriesRequest;
 
 class GetProductCategoriesFromApi extends Component
 {
-    public ?Collection $categories;
+    public Collection $categoriesByStatus;
 
     public function getProductCategories()
     {
@@ -19,7 +19,7 @@ class GetProductCategoriesFromApi extends Component
         $request = new GetProductCategoriesRequest();
 
         $i = 1;
-        $this->categories = new Collection;
+        $categoriesFromApi = collect();
 
         do {
 
@@ -27,9 +27,9 @@ class GetProductCategoriesFromApi extends Component
 
             $response = $irWordpress->send($request);
 
-            $json = new Collection(json_decode($response->body(), true));
+            $json = collect(json_decode($response->body(), true));
 
-            $this->categories = $this->categories->merge($json);
+            $categoriesFromApi = $categoriesFromApi->merge($json);
 
             $totalPages = $response->header('x-wp-totalpages');
 
@@ -37,15 +37,58 @@ class GetProductCategoriesFromApi extends Component
 
         } while ($i <= $totalPages);
 
-        $this->upsertCategories();
+        $this->upsertCategories($categoriesFromApi);
+
+        $this->getProductCategoriesFromDatabase();
 
     }
 
-    public function upsertCategories()
+    protected function getProductCategoriesFromDatabase()
+    {
+
+        $categories = ProductCategory::with('parent')->get();
+
+        $categoriesCollection = collect(['added' => collect(), 'updated' => collect(), 'toDelete' => collect()]);
+
+        $lastUpdatedAt = $categories->max('updated_at');
+
+        foreach ($categories as $category) { 
+            
+            if ($category->wasUpdatedAt($lastUpdatedAt)) {
+
+                if ($category->wasCreatedAt($lastUpdatedAt)) {
+                    
+                    $categoriesCollection['added']->push($category);
+                
+                } else {
+                    
+                    $categoriesCollection['updated']->push($category);
+
+                }
+
+            } else {
+
+                $categoriesCollection['toDelete']->push($category);
+
+            }
+        }
+
+        $this->categoriesByStatus = $categoriesCollection;
+
+    }
+
+    public function mount()
+    {
+    
+        $this->getProductCategoriesFromDatabase();
+        
+    }
+
+    public function upsertCategories(Collection $categories)
     {
 
         // Create collection of id and name
-        $categoriesWithoutParent = $this->categories->map(function ($value) {
+        $categoriesWithoutParent = $categories->map(function ($value) {
             return [
                 'wp_id' => $value['id'], 
                 'name' => $value['name'], 
@@ -53,7 +96,7 @@ class GetProductCategoriesFromApi extends Component
         });
 
         // Create collection of wp_id and wp_parent_id
-        $categoriesWithParent = $this->categories->map(function ($value) {
+        $categoriesWithParent = $categories->map(function ($value) {
             return [
                 'wp_id' => $value['id'],  
                 'name' => $value['name'],

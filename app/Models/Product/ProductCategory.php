@@ -2,8 +2,9 @@
 
 namespace App\Models\Product;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductCategory extends Model
 {
@@ -29,6 +30,16 @@ class ProductCategory extends Model
     {
         return $this->belongsTo(ProductCategory::class, 'wp_parent_id', 'wp_id')
             ->with('parent');
+    }
+
+    public function wasCreatedAt(Carbon $timestamp)
+    {
+        return $this->created_at->equalTo($timestamp);
+    }
+
+    public function wasUpdatedAt(Carbon $timestamp)
+    {
+        return $this->updated_at->equalTo($timestamp);
     }
 
 }
