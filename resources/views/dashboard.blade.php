@@ -7,6 +7,9 @@
         
         <div class="col-span-full">Time Clock</div>
         <x-page-icon.timeclock />
+
+        <div class="col-span-full">Products</div>
+        <x-page-icon.product-categories-get-from-api />
         
         @can('view moneris vault tokens')
             <div class="col-span-full">Moneris</div>
