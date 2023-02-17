@@ -12,9 +12,9 @@ class TimeclockEntry extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $dates = [
-        'clock_in_at',
-        'clock_out_at',
+    protected $casts = [
+        'clock_in_at' => 'datetime',
+        'clock_out_at' => 'datetime',
     ];
 
     protected $fillable = [

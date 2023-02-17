@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Saloon\Laravel;
 
 use Saloon\Helpers\Config;
+use Saloon\Contracts\Sender;
 use Illuminate\Support\ServiceProvider;
 use Saloon\Laravel\Http\Faking\MockClient;
 use Saloon\Laravel\Console\Commands\MakePlugin;
@@ -51,7 +52,7 @@ class SaloonServiceProvider extends ServiceProvider
         // Register Saloon Laravel's Global Middleware
 
         if (! Saloon::$registeredDefaults) {
-            Config::setDefaultSender(config('saloon.default_sender'));
+            Config::resolveSenderWith(static fn (): Sender => new (config('saloon.default_sender')));
             Config::middleware()->onRequest(new LaravelMiddleware, false, 'laravelMiddleware');
 
             Saloon::$registeredDefaults = true;
