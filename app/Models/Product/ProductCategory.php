@@ -42,4 +42,9 @@ class ProductCategory extends Model
         return $this->updated_at->equalTo($timestamp);
     }
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
 }

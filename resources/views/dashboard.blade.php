@@ -10,6 +10,7 @@
 
         <div class="col-span-full">Products</div>
         <x-page-icon.product-categories-get-from-api />
+        <x-page-icon.products-get-from-api />
         
         @can('view moneris vault tokens')
             <div class="col-span-full">Moneris</div>
