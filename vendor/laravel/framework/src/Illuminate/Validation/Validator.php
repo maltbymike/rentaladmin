@@ -207,6 +207,11 @@ class Validator implements ValidatorContract
         'Declined',
         'DeclinedIf',
         'Filled',
+        'Missing',
+        'MissingIf',
+        'MissingUnless',
+        'MissingWith',
+        'MissingWithAll',
         'Present',
         'Required',
         'RequiredIf',
@@ -274,7 +279,7 @@ class Validator implements ValidatorContract
      *
      * @var string[]
      */
-    protected $numericRules = ['Numeric', 'Integer'];
+    protected $numericRules = ['Numeric', 'Integer', 'Decimal'];
 
     /**
      * The current placeholder for dots in rule keys.
@@ -297,11 +302,11 @@ class Validator implements ValidatorContract
      * @param  array  $data
      * @param  array  $rules
      * @param  array  $messages
-     * @param  array  $customAttributes
+     * @param  array  $attributes
      * @return void
      */
     public function __construct(Translator $translator, array $data, array $rules,
-                                array $messages = [], array $customAttributes = [])
+                                array $messages = [], array $attributes = [])
     {
         $this->dotPlaceholder = Str::random();
 
@@ -309,7 +314,7 @@ class Validator implements ValidatorContract
         $this->translator = $translator;
         $this->customMessages = $messages;
         $this->data = $this->parseData($data);
-        $this->customAttributes = $customAttributes;
+        $this->customAttributes = $attributes;
 
         $this->setRules($rules);
     }
@@ -1092,6 +1097,20 @@ class Validator implements ValidatorContract
     }
 
     /**
+     * Get the validation rules with key placeholders removed.
+     *
+     * @return array
+     */
+    public function getRulesWithoutPlaceholders()
+    {
+        return collect($this->rules)
+            ->mapWithKeys(fn ($value, $key) => [
+                str_replace($this->dotPlaceholder, '\\.', $key) => $value,
+            ])
+            ->all();
+    }
+
+    /**
      * Set the validation rules.
      *
      * @param  array  $rules
@@ -1339,12 +1358,12 @@ class Validator implements ValidatorContract
     /**
      * Add custom attributes to the validator.
      *
-     * @param  array  $customAttributes
+     * @param  array  $attributes
      * @return $this
      */
-    public function addCustomAttributes(array $customAttributes)
+    public function addCustomAttributes(array $attributes)
     {
-        $this->customAttributes = array_merge($this->customAttributes, $customAttributes);
+        $this->customAttributes = array_merge($this->customAttributes, $attributes);
 
         return $this;
     }

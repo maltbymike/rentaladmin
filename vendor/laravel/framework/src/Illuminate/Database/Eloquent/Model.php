@@ -467,7 +467,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
     }
 
     /**
-     * Register a callback that is responsible for handling lazy loading violations.
+     * Register a callback that is responsible for handling missing attribute violations.
      *
      * @param  callable|null  $callback
      * @return void
@@ -1084,6 +1084,16 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
     }
 
     /**
+     * Save the model and all of its relationships without raising any events to the parent model.
+     *
+     * @return bool
+     */
+    public function pushQuietly()
+    {
+        return static::withoutEvents(fn () => $this->push());
+    }
+
+    /**
      * Save the model to the database without raising any events.
      *
      * @param  array  $options
@@ -1153,9 +1163,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public function saveOrFail(array $options = [])
     {
-        return $this->getConnection()->transaction(function () use ($options) {
-            return $this->save($options);
-        });
+        return $this->getConnection()->transaction(fn () => $this->save($options));
     }
 
     /**
@@ -1426,9 +1434,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
             return false;
         }
 
-        return $this->getConnection()->transaction(function () {
-            return $this->delete();
-        });
+        return $this->getConnection()->transaction(fn () => $this->delete());
     }
 
     /**
@@ -1543,9 +1549,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public function newQueryForRestoration($ids)
     {
-        return is_array($ids)
-            ? $this->newQueryWithoutScopes()->whereIn($this->getQualifiedKeyName(), $ids)
-            : $this->newQueryWithoutScopes()->whereKey($ids);
+        return $this->newQueryWithoutScopes()->whereKey($ids);
     }
 
     /**
@@ -2316,6 +2320,11 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
 
         if ($resolver = ($this->relationResolver(static::class, $method))) {
             return $resolver($this);
+        }
+
+        if (Str::startsWith($method, 'through') &&
+            method_exists($this, $relationMethod = Str::of($method)->after('through')->lcfirst()->toString())) {
+            return $this->through($relationMethod);
         }
 
         return $this->forwardCallTo($this->newQuery(), $method, $parameters);

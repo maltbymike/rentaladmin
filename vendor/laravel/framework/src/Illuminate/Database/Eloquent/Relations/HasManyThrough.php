@@ -160,8 +160,10 @@ class HasManyThrough extends Relation
     {
         $whereIn = $this->whereInMethod($this->farParent, $this->localKey);
 
-        $this->query->{$whereIn}(
-            $this->getQualifiedFirstKeyName(), $this->getKeys($models, $this->localKey)
+        $this->whereInEager(
+            $whereIn,
+            $this->getQualifiedFirstKeyName(),
+            $this->getKeys($models, $this->localKey)
         );
     }
 
@@ -549,7 +551,7 @@ class HasManyThrough extends Relation
     /**
      * Get a generator for the given query.
      *
-     * @return \Generator
+     * @return \Illuminate\Support\LazyCollection
      */
     public function cursor()
     {

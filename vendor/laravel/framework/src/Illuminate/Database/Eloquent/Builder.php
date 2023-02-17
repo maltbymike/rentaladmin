@@ -232,7 +232,11 @@ class Builder implements BuilderContract
         }
 
         if (is_array($id) || $id instanceof Arrayable) {
-            $this->query->whereIn($this->model->getQualifiedKeyName(), $id);
+            if (in_array($this->model->getKeyType(), ['int', 'integer'])) {
+                $this->query->whereIntegerInRaw($this->model->getQualifiedKeyName(), $id);
+            } else {
+                $this->query->whereIn($this->model->getQualifiedKeyName(), $id);
+            }
 
             return $this;
         }
@@ -257,7 +261,11 @@ class Builder implements BuilderContract
         }
 
         if (is_array($id) || $id instanceof Arrayable) {
-            $this->query->whereNotIn($this->model->getQualifiedKeyName(), $id);
+            if (in_array($this->model->getKeyType(), ['int', 'integer'])) {
+                $this->query->whereIntegerNotInRaw($this->model->getQualifiedKeyName(), $id);
+            } else {
+                $this->query->whereNotIn($this->model->getQualifiedKeyName(), $id);
+            }
 
             return $this;
         }
@@ -272,7 +280,7 @@ class Builder implements BuilderContract
     /**
      * Add a basic where clause to the query.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
@@ -294,7 +302,7 @@ class Builder implements BuilderContract
     /**
      * Add a basic where clause to the query, and return the first result.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
@@ -308,7 +316,7 @@ class Builder implements BuilderContract
     /**
      * Add an "or where" clause to the query.
      *
-     * @param  \Closure|array|string|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|array|string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @return $this
@@ -325,7 +333,7 @@ class Builder implements BuilderContract
     /**
      * Add a basic "where not" clause to the query.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
@@ -339,7 +347,7 @@ class Builder implements BuilderContract
     /**
      * Add an "or where not" clause to the query.
      *
-     * @param  \Closure|array|string|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|array|string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @return $this
@@ -352,7 +360,7 @@ class Builder implements BuilderContract
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @return $this
      */
     public function latest($column = null)
@@ -369,7 +377,7 @@ class Builder implements BuilderContract
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @return $this
      */
     public function oldest($column = null)
@@ -633,7 +641,7 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of a query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @return mixed
      */
     public function value($column)
@@ -646,7 +654,7 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of a query if it's the sole matching record.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @return mixed
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
@@ -660,7 +668,7 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of the query or throw an exception.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @return mixed
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
@@ -765,7 +773,7 @@ class Builder implements BuilderContract
         $relation = Relation::noConstraints(function () use ($name) {
             try {
                 return $this->getModel()->newInstance()->$name();
-            } catch (BadMethodCallException $e) {
+            } catch (BadMethodCallException) {
                 throw RelationNotFoundException::make($this->getModel(), $name);
             }
         });
@@ -841,9 +849,9 @@ class Builder implements BuilderContract
     }
 
     /**
-     * Get an array with the values of a given column.
+     * Get a collection with the values of a given column.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  string|null  $key
      * @return \Illuminate\Support\Collection
      */
@@ -1058,7 +1066,7 @@ class Builder implements BuilderContract
     /**
      * Increment a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -1073,7 +1081,7 @@ class Builder implements BuilderContract
     /**
      * Decrement a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -1738,7 +1746,7 @@ class Builder implements BuilderContract
     /**
      * Qualify the given column name by the model's table.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\Illuminate\Contracts\Database\Query\Expression  $column
      * @return string
      */
     public function qualifyColumn($column)
@@ -1749,7 +1757,7 @@ class Builder implements BuilderContract
     /**
      * Qualify the given columns with the model's table.
      *
-     * @param  array|\Illuminate\Database\Query\Expression  $columns
+     * @param  array|\Illuminate\Contracts\Database\Query\Expression  $columns
      * @return array
      */
     public function qualifyColumns($columns)
@@ -1829,7 +1837,7 @@ class Builder implements BuilderContract
      * @param  array  $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, array $parameters)
     {
         if ($method === 'macro') {
             $this->localMacros[$parameters[0]] = $parameters[1];
@@ -1910,8 +1918,8 @@ class Builder implements BuilderContract
     protected static function registerMixin($mixin, $replace)
     {
         $methods = (new ReflectionClass($mixin))->getMethods(
-                ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
-            );
+            ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
+        );
 
         foreach ($methods as $method) {
             if ($replace || ! static::hasGlobalMacro($method->name)) {

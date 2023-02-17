@@ -525,7 +525,7 @@ abstract class Factory
     /**
      * Add a new sequenced state transformation to the model definition.
      *
-     * @param  array  $sequence
+     * @param  mixed  ...$sequence
      * @return static
      */
     public function sequence(...$sequence)
@@ -536,7 +536,7 @@ abstract class Factory
     /**
      * Add a new sequenced state transformation to the model definition and update the pending creation count to the size of the sequence.
      *
-     * @param  array  $sequence
+     * @param  array  ...$sequence
      * @return static
      */
     public function forEachSequence(...$sequence)
@@ -547,7 +547,7 @@ abstract class Factory
     /**
      * Add a new cross joined sequenced state transformation to the model definition.
      *
-     * @param  array  $sequence
+     * @param  array  ...$sequence
      * @return static
      */
     public function crossJoinSequence(...$sequence)
@@ -874,7 +874,7 @@ abstract class Factory
             return Container::getInstance()
                             ->make(Application::class)
                             ->getNamespace();
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return 'App\\';
         }
     }

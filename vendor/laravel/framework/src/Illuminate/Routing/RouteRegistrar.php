@@ -184,7 +184,7 @@ class RouteRegistrar
     /**
      * Create a route group with shared attributes.
      *
-     * @param  \Closure|string  $callback
+     * @param  \Closure|array|string  $callback
      * @return $this
      */
     public function group($callback)
@@ -241,7 +241,7 @@ class RouteRegistrar
         }
 
         if (is_array($action) &&
-            ! Arr::isAssoc($action) &&
+            array_is_list($action) &&
             Reflector::isCallable($action)) {
             if (strncmp($action[0], '\\', 1)) {
                 $action[0] = '\\'.$action[0];
