@@ -4,21 +4,31 @@ namespace App\Models\Product;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class ProductCategory extends Model
 {
     use HasFactory;
+    // use HasRecursiveRelationships;
 
     public function subcategories()
     {
         return $this->hasMany(ProductCategory::class, 'wp_parent_id', 'wp_id');
     }
 
-    public function descendants()
+    public function subcategoriesWithDescendants()
     {
         return $this->hasMany(ProductCategory::class, 'wp_parent_id', 'wp_id')
-            ->with('descendants');
+            ->with('subcategoriesWithDescendants');
+    }
+
+    public function subcategoriesWithProductsAndDescendants()
+    {
+        return $this->hasMany(ProductCategory::class, 'wp_parent_id', 'wp_id')
+            ->with('products')
+            ->with('subcategoriesWithDescendants');
     }
 
     public function parent()

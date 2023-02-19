@@ -5,6 +5,7 @@ namespace App\Providers;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\ServiceProvider;
 use Filament\Forms\Components\DateTimePicker;
+use SebastianBergmann\Type\VoidType;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,9 +14,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register() :void
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Products\ShowProducts;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonerisController;
 use App\Http\Controllers\User\UserController;
@@ -52,6 +53,8 @@ Route::middleware([
     });
 
     // Products Routes
+    Route::get('/products', ShowProducts::class)
+        ->name('products.show');
     Route::get('/products/get', GetProductsFromApi::class)
         ->name('products.get');
     Route::get('/products/categories/get', GetProductCategoriesFromApi::class)
