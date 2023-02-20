@@ -53,7 +53,7 @@ Route::middleware([
     });
 
     // Products Routes
-    Route::get('/products', ShowProducts::class)
+    Route::get('/products/category/{category?}', ShowProducts::class)
         ->name('products.show');
     Route::get('/products/get', GetProductsFromApi::class)
         ->name('products.get');

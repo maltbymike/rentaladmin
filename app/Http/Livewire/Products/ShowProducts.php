@@ -14,10 +14,15 @@ class ShowProducts extends Component
 
     public Collection $categories;
 
+    public ?int $showCategory;
+
     public \Illuminate\Support\Collection $state;
 
-    public function mount()
+    protected $queryString = [];
+
+    public function mount(int $category = null)
     {
+        $this->showCategory = $category;
         $publishedStatus = ProductStatus::where('slug', 'publish')->first();
         $visibleStatus = ProductVisibility::where('slug', 'visible')->first();
 
@@ -25,19 +30,17 @@ class ShowProducts extends Component
             'status' => $publishedStatus->id,
             'visibility' => $visibleStatus->id,
         ]);
-
-        $expire = now()->addMinutes(10);
-
-        $this->categories = Cache::remember('categories', $expire, function() {
-            return ProductCategory::whereNull('wp_parent_id')
-                ->with('products')
-                ->with('subcategoriesWithProductsAndDescendants')
-                ->get();
-        });
     }
 
     public function render()
     {
+        $expire = now()->addMinutes(10);
+
+        $this->categories = ProductCategory::where('wp_parent_id', $this->showCategory)
+                ->with('products')
+                ->with('subcategoriesWithProductsAndDescendants')
+                ->get();
+
         return view('livewire.products.show-products');
     }
 }
