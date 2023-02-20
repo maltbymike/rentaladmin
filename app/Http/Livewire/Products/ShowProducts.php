@@ -3,11 +3,12 @@
 namespace App\Http\Livewire\Products;
 
 use Livewire\Component;
+use App\Models\Product\Product;
 use App\Models\Product\ProductStatus;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductVisibility;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Cache;
 
 class ShowProducts extends Component
 {

@@ -773,6 +773,7 @@ class ComposerStaticInit1daaa2c1104cd148525dbb924af8c232
         'App\\Http\\Livewire\\Moneris\\UploadVaultProfileFile' => __DIR__ . '/../..' . '/app/Http/Livewire/Moneris/UploadVaultProfileFile.php',
         'App\\Http\\Livewire\\Products\\Categories\\GetProductCategoriesFromApi' => __DIR__ . '/../..' . '/app/Http/Livewire/Products/Categories/GetProductCategoriesFromApi.php',
         'App\\Http\\Livewire\\Products\\GetProductsFromApi' => __DIR__ . '/../..' . '/app/Http/Livewire/Products/GetProductsFromApi.php',
+        'App\\Http\\Livewire\\Products\\ProductRatesDialog' => __DIR__ . '/../..' . '/app/Http/Livewire/Products/ProductRatesDialog.php',
         'App\\Http\\Livewire\\Products\\ShowProducts' => __DIR__ . '/../..' . '/app/Http/Livewire/Products/ShowProducts.php',
         'App\\Http\\Livewire\\Profile\\CreateUserForm' => __DIR__ . '/../..' . '/app/Http/Livewire/Profile/CreateUserForm.php',
         'App\\Http\\Livewire\\Profile\\Permissions\\SelectUserForm' => __DIR__ . '/../..' . '/app/Http/Livewire/Profile/Permissions/SelectUserForm.php',

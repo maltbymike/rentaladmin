@@ -50,6 +50,7 @@ return array(
     'App\\Http\\Livewire\\Moneris\\UploadVaultProfileFile' => $baseDir . '/app/Http/Livewire/Moneris/UploadVaultProfileFile.php',
     'App\\Http\\Livewire\\Products\\Categories\\GetProductCategoriesFromApi' => $baseDir . '/app/Http/Livewire/Products/Categories/GetProductCategoriesFromApi.php',
     'App\\Http\\Livewire\\Products\\GetProductsFromApi' => $baseDir . '/app/Http/Livewire/Products/GetProductsFromApi.php',
+    'App\\Http\\Livewire\\Products\\ProductRatesDialog' => $baseDir . '/app/Http/Livewire/Products/ProductRatesDialog.php',
     'App\\Http\\Livewire\\Products\\ShowProducts' => $baseDir . '/app/Http/Livewire/Products/ShowProducts.php',
     'App\\Http\\Livewire\\Profile\\CreateUserForm' => $baseDir . '/app/Http/Livewire/Profile/CreateUserForm.php',
     'App\\Http\\Livewire\\Profile\\Permissions\\SelectUserForm' => $baseDir . '/app/Http/Livewire/Profile/Permissions/SelectUserForm.php',
