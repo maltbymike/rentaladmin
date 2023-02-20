@@ -8,6 +8,6 @@
         <x-products.category-with-subcategories :categories="$categories" :state="$state" />
     </div>
 
-    <livewire:products.product-rates-dialog />
+    <livewire:products.alternate-rates.product-rates-dialog />
 
 </div>

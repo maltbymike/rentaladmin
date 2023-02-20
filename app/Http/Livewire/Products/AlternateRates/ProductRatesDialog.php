@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Products;
+namespace App\Http\Livewire\Products\AlternateRates;
 
 use Livewire\Component;
 use App\Models\Product\Product;
@@ -15,6 +15,6 @@ class ProductRatesDialog extends Component
     {
         $this->product = Product::find(285);
 
-        return view('livewire.products.product-rates-dialog');
+        return view('livewire.products.alternate-rates.product-rates-dialog');
     }
 }
