@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('product_alternate_rates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();
-            $table->foreignId('product_alternate_rate_type_id')->constrained();
+            $table->foreignId('product_alternate_rate_product_id')->constrained()->index('alternate_product_id');
+            // $table->foreignId('product_alternate_rate_type_id')->constrained();
             $table->decimal('two_hour_rate', 11, 2)->nullable();
             $table->decimal('four_hour_rate', 11, 2)->nullable();
             $table->decimal('daily_rate', 11, 2)->nullable();

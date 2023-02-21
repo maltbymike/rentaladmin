@@ -12,6 +12,11 @@ class Product extends Model
 
     protected $guarded = [];
 
+    public function alternateProducts()
+    {
+        return $this->belongsToMany(ProductAlternateRateProduct::class);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(ProductCategory::class);

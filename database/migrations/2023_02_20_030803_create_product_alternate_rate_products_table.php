@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->foreignId('product_alternate_rate_type_id')->constrained()->index('alternate_products_alternate_rate_type');
-            $table->string('product_identifier', 50);
+            $table->string('product_identifier', 50)->nullable();
             $table->timestamps();
         });
     }

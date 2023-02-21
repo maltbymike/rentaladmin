@@ -7,14 +7,25 @@ use App\Models\Product\Product;
 
 class ProductRatesDialog extends Component
 {    
-    public bool $showProduct = true;
+    public bool $showProduct = false;
+    public ?int $productId;
 
     public ?Product $product;
 
+    protected $listeners = [
+        'showProduct',
+    ];
+
+    public function showProduct(int $productId = 0)
+    {
+        $this->product = Product::where('id', $productId)
+           ->first();
+
+        $this->showProduct = true;
+    }
+
     public function render()
     {
-        $this->product = Product::find(285);
-
         return view('livewire.products.alternate-rates.product-rates-dialog');
     }
 }
