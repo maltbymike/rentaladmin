@@ -18,4 +18,9 @@ class ProductAlternateRateProduct extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function alternateRates()
+    {
+        return $this->hasMany(ProductAlternateRate::class, 'product_alternate_rate_product_id');
+    }
 }

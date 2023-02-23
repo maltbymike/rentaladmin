@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 class ProductRatesDialog extends Component
 {    
     public bool $showProduct = false;
+
     public ?int $productId;
 
     public ?Product $product;

@@ -14,7 +14,8 @@ class Product extends Model
 
     public function alternateProducts()
     {
-        return $this->belongsToMany(ProductAlternateRateProduct::class);
+        return $this->belongsToMany(ProductAlternateRateProduct::class)
+            ->with('alternateRates');
     }
 
     public function categories()

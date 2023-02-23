@@ -11,7 +11,6 @@ use App\Models\Product\ProductAlternateRateType;
 
 class CreateAlternateRateForm extends Component
 {
-
     public $product;
 
     public Collection $rateTypes;
@@ -72,6 +71,8 @@ class CreateAlternateRateForm extends Component
         $newRate->alternateProduct()->associate($newAlternateProduct);
         
         $newRate->save();
+
+        $this->reset();
 
     }
 
