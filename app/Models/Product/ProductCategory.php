@@ -39,7 +39,7 @@ class ProductCategory extends Model
     public function ancestors()
     {
         return $this->belongsTo(ProductCategory::class, 'wp_parent_id', 'wp_id')
-            ->with('parent');
+            ->with('ancestors');
     }
 
     public function wasCreatedAt(Carbon $timestamp)
@@ -55,6 +55,12 @@ class ProductCategory extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function productsWithAlternateRates()
+    {
+        return $this->belongsToMany(Product::class)
+            ->with('alternateProducts');
     }
 
 }

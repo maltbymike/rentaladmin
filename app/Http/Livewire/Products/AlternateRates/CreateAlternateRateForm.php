@@ -78,6 +78,8 @@ class CreateAlternateRateForm extends Component
 
     public function showProduct(int $productId = 0)
     {
+        $this->resetExcept('rateTypes');
+
         $this->product = Product::find($productId);
 
         $this->state['name'] = $this->product->name;

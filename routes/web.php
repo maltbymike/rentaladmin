@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Products\InputAlternateRatesByCategory;
 use App\Http\Livewire\Products\ShowProducts;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonerisController;
@@ -55,6 +56,8 @@ Route::middleware([
     // Products Routes
     Route::get('/products/category/{category?}', ShowProducts::class)
         ->name('products.show');
+    Route::get('/products/compare/input-rates-by-category', InputAlternateRatesByCategory::class)
+        ->name('products.compare.input-by-category');
     Route::get('/products/get', GetProductsFromApi::class)
         ->name('products.get');
     Route::get('/products/categories/get', GetProductCategoriesFromApi::class)

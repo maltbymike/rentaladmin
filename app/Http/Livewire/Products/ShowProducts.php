@@ -35,8 +35,6 @@ class ShowProducts extends Component
 
     public function render()
     {
-        $expire = now()->addMinutes(10);
-
         $this->categories = ProductCategory::where('wp_parent_id', $this->showCategory)
                 ->with('products')
                 ->with('subcategoriesWithProductsAndDescendants')
