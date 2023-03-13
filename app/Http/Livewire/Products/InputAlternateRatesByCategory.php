@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Models\Product\ProductAlternateRateType;
+use App\Models\Product\ProductVisibility;
 use Livewire\Component;
+use App\Models\Product\ProductStatus;
 use App\Models\Product\ProductCategory;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Product\ProductAlternateRateType;
 
 class InputAlternateRatesByCategory extends Component
 {
@@ -17,6 +19,9 @@ class InputAlternateRatesByCategory extends Component
     public ?Collection $rateTypes;
 
     public $currentCategory = null;
+
+    public ?int $publishStatus;
+    public ?int $visibleStatus;
 
     protected $queryString = [
         'currentCategory' => ['except' => null, 'as' => 'cat'],
@@ -65,6 +70,9 @@ class InputAlternateRatesByCategory extends Component
         if (! $this->currentCategory) {
             $this->currentCategory = env('PRODUCTS_DEFAULT_CATEGORY');
         }
+
+        $this->publishStatus = ProductStatus::where('name', 'Publish')->pluck('id')->first();
+        $this->visibleStatus = ProductVisibility::where('name', 'Visible')->pluck('id')->first();
 
         $this->rateTypes = ProductAlternateRateType::all();
     }

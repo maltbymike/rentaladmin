@@ -6,24 +6,35 @@
 
     <x-tools.breadcrumbs :breadcrumbs="$breadcrumb" class="-m-3 p-3 bg-gray-200" />
 
+    @if(count($category->subcategoriesWithDescendants))
     <section class="flex flex-col gap-3 mt-3 pt-3">
-        
-        @foreach ($category->subcategoriesWithDescendants as $category)
 
-            <x-jet-button wire:click.prevent="$set('currentCategory', {{ $category->wp_id }})">
-                {!! $category->name !!}
+        @foreach ($category->subcategoriesWithDescendants as $displayCategory)
+        @if(count($displayCategory->products))
+
+            <x-jet-button wire:click.prevent="$set('currentCategory', {{ $displayCategory->wp_id }})">
+                {!! $displayCategory->name !!}
             </x-jet-button>
-
+        
+        @endif
         @endforeach
+
+    </section>
+    @endif
+
+    <section class="flex flex-col gap-3 mt-3 pt-3">
 
         <div class="product-wrapper">
 
+            @if(count($category->products))
             <div class="hidden lg:grid lg:grid-cols-2">
                 <div class="font-bold bg-gray-500 text-white -ml-3 -mt-3 pl-5 py-3">Item</div>
                 <div class="font-bold bg-gray-500 text-white text-center -mr-3 -mt-3 pr-5 py-3">Rates</div>
             </div>
+            @endif
             
             @foreach ($category->products as $product)
+            @if ($product->product_visibility_id === $visibleStatus && $product->product_status_id === $publishStatus)
             <div class="grid lg:grid-cols-2 {{ $loop->even ? 'lg:bg-gray-100 -mx-3 px-3' : '' }} {{ $loop->first ? '-mt-3 lg:mt-0' : '' }}">
                 
                 <div class="font-bold p-2 bg-gray-500 text-white lg:bg-inherit lg:text-inherit -mx-3 lg:m-0">{!! $product->name !!}</div>
@@ -78,8 +89,9 @@
                 </div>
             
             </div>
+            @endif
             @endforeach
-   
+
         </div>
     
     </section>
