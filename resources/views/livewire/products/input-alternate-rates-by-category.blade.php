@@ -10,13 +10,11 @@
     <section class="flex flex-col gap-3 mt-3 pt-3">
 
         @foreach ($category->subcategoriesWithDescendants as $displayCategory)
-        @if(count($displayCategory->products))
 
             <x-jet-button wire:click.prevent="$set('currentCategory', {{ $displayCategory->wp_id }})">
                 {!! $displayCategory->name !!}
             </x-jet-button>
         
-        @endif
         @endforeach
 
     </section>
