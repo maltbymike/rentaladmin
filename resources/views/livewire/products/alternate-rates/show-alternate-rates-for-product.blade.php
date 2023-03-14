@@ -26,14 +26,19 @@
             @foreach ($product->alternateProducts as $altProduct)
                 @if(count($altProduct->alternateRates))
                     <div class="grid grid-cols-7 gap-x-3 py-2 even:bg-gray-50 -mx-3 px-3">
-                        <div class="col-span-2 flex flex-col">{{ $altProduct->rateType->name }}</div>
+                        <div class="col-span-2 flex items-center gap-2">
+                            {{ $altProduct->rateType->name }}
+                            <x-svg.icons.circle-question class="w-4 h-4 fill-gray-500 hover:fill-gray-900">
+                                <title>{{ $altProduct->updated_at->toDateString() }}</title>
+                            </x-svg.icons.circle-question>
+                        </div>
                         <div class="text-right py-1 px-2">{{ number_format($altProduct->alternateRates->last()->two_hour_rate, 0) }}</div>
                         <div class="text-right py-1 px-2">{{ number_format($altProduct->alternateRates->last()->four_hour_rate, 0) }}</div>
                         <div class="text-right py-1 px-2">{{ number_format($altProduct->alternateRates->last()->daily_rate, 0) }}</div>
                         <div class="text-right py-1 px-2">{{ number_format($altProduct->alternateRates->last()->weekly_rate, 0) }}</div>
                         <div class="text-right py-1 px-2">{{ number_format($altProduct->alternateRates->last()->four_week_rate, 0) }}</div>
 
-                        <div class="col-span-2">{{ $altProduct->updated_at->toDateString() }}</div>
+                        <!-- <div class="col-span-2">{{ $altProduct->updated_at->toDateString() }}</div> -->
                     </div>
                 @endif
             @endforeach

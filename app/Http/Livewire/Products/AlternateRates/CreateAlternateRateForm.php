@@ -72,7 +72,7 @@ class CreateAlternateRateForm extends Component
         
         $newRate->save();
 
-        $this->reloadInitialValues();
+        $this->emit('showProduct', $this->product->id);
 
     }
 
