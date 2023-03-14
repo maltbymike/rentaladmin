@@ -72,13 +72,20 @@ class CreateAlternateRateForm extends Component
         
         $newRate->save();
 
-        $this->reset();
+        $this->reloadInitialValues();
 
+    }
+
+    public function reloadInitialValues()
+    {
+        $this->resetExcept('rateTypes');
+
+        $this->rateTypes = ProductAlternateRateType::all();
     }
 
     public function showProduct(int $productId = 0)
     {
-        $this->resetExcept('rateTypes');
+        $this->reloadInitialValues();
 
         $this->product = Product::find($productId);
 
