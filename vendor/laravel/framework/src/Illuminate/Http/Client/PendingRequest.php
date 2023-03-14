@@ -258,7 +258,7 @@ class PendingRequest
      * @param  string  $contentType
      * @return $this
      */
-    public function withBody($content, $contentType)
+    public function withBody($content, $contentType = 'application/json')
     {
         $this->bodyFormat('body');
 
