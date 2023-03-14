@@ -24,15 +24,14 @@
 
         <div class="product-wrapper">
 
-            @if(count($category->products))
+            @if(count($category->productsWithAlternateRates))
             <div class="hidden lg:grid lg:grid-cols-2">
                 <div class="font-bold bg-gray-500 text-white -ml-3 -mt-3 pl-5 py-3">Item</div>
                 <div class="font-bold bg-gray-500 text-white text-center -mr-3 -mt-3 pr-5 py-3">Rates</div>
             </div>
             @endif
             
-            @foreach ($category->products as $product)
-            @if ($product->product_visibility_id === $visibleStatus && $product->product_status_id === $publishStatus)
+            @foreach ($category->productsWithAlternateRates as $product)
             <div class="grid lg:grid-cols-2 {{ $loop->even ? 'lg:bg-gray-100 -mx-3 px-3' : '' }} {{ $loop->first ? '-mt-3 lg:mt-0' : '' }}">
                 
                 <div class="font-bold p-2 bg-gray-500 text-white lg:bg-inherit lg:text-inherit -mx-3 lg:m-0">{!! $product->name !!}</div>
@@ -87,7 +86,6 @@
                 </div>
             
             </div>
-            @endif
             @endforeach
 
         </div>

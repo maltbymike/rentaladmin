@@ -83,7 +83,11 @@ class InputAlternateRatesByCategory extends Component
 
         $this->category = ProductCategory::where('wp_id', $this->currentCategory)
             ->with('subcategoriesWithDescendants')
-            ->with('productsWithAlternateRates')
+            ->with(['productsWithAlternateRates' => function ($query) {
+                $query->orderBy('name')
+                    ->where('product_status_id', ProductStatus::where('name', 'Publish')->pluck('id')->first())
+                    ->where('product_visibility_id', ProductVisibility::where('name', 'Visible')->pluck('id')->first());
+            }])
             ->first();
  
         $breadcrumb = $this->category->load('ancestors');
